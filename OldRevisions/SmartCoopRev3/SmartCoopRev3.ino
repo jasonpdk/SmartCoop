@@ -22,6 +22,9 @@ String sunset = "";
 
 String HTTPRequest;
 
+
+
+bool ledStatus = 0;
 bool doorStatus = 0;
 
 bool getTimes = true;
@@ -138,36 +141,89 @@ void runServer()
 
             // Light Stuff
             client.println("<p>Click to turn LED on and off.</p>");
+            client.println("<form method=\"get\">");
 
+            Serial.println("LEDSTATUS!!");
+            Serial.println(ledStatus);
 
-            client.println("<a href=\"?LEDOn\">On</a>");
-            client.println("<a href=\"?LEDOff\">Off</a>");
-            
-            if (HTTPRequest.indexOf("LEDOn") > -1)
+            // Allows control of the LED from the web page
+            if ((HTTPRequest.indexOf("LED") == -1) && ledStatus == 1)
+            {
+              HTTPRequest += "LED";
+              Serial.println("REQUESTY");
+              Serial.print(HTTPRequest);
+            }
+
+            // check if the HTTP Request contains "LED", button is pressed
+            if (HTTPRequest.indexOf("LED") > -1) 
+            {
+              // if the button has been pressed invert ledStatus
+              if (ledStatus == 1)
+              {    
+                ledStatus = 0;
+              }
+              else
+              {
+                ledStatus = 1;
+              }
+
+            }
+
+            if (ledStatus)
             {
               digitalWrite(6, HIGH);
+              // checkbox is checked
+              client.println("<input type=\"checkbox\" name=\"LED\" value=\"2\" onclick=\"submit();\" checked>LED");
             }
-            else if (HTTPRequest.indexOf("LEDOff") > -1)
-            {
+            else 
+            {              // switch LED off
               digitalWrite(6, LOW);
-            }
+              // checkbox is unchecked
+              client.println("<input type=\"checkbox\" name=\"LED\" value=\"2\" onclick=\"submit();\">LED");
+              }
 
             
+
+
+            client.println("</form>");
+
+
             // Door Stuff
-            client.println("<p>Click to open/close door.</p>");
-           
-           client.println("<a href=\"?openDoor\">Open</a>");
-           client.println("<a href=\"?closeDoor\">Close</a>");
+             client.println("<p>Click to open/close door.</p>");
+            client.println("<form method=\"get\">");
 
-           if (HTTPRequest.indexOf("openDoor") > -1)
-           {
-            doorStatus = 1;
-           }
-           else if(HTTPRequest.indexOf("closeDoor") > -1)
-           {
-            doorStatus = 0;
-           }
 
+            // allows control of the door motor through the web page
+            // check if the HTTP Request contains "LED", button is pressed
+            if (HTTPRequest.indexOf("Door") > -1)
+            {
+              // if the button as been pressed invert doorStatus
+              if (doorStatus == 1) 
+              {
+                doorStatus = 0; // door closed
+              }
+              else 
+              {
+                doorStatus = 1; // door open
+              }
+              
+
+            }
+
+            if (doorStatus)
+            {
+              
+              // checkbox is checked
+              client.println("<input type=\"checkbox\" name=\"Door\" value=\"2\" onclick=\"submit();\" checked>Door");
+            }
+            else 
+            {    
+              // checkbox is unchecked
+              client.println("<input type=\"checkbox\" name=\"Door\" value=\"2\" onclick=\"submit();\">Door");
+            }
+            
+
+            client.println("</form>");
             client.println("</body>");
             client.println("</html>");
 
