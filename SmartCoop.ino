@@ -56,7 +56,7 @@ void setup() {
   pinMode(doorMotorPin2, OUTPUT);
   pinMode(doorReadSwitch1, INPUT);
   pinMode(doorReadSwitch2, INPUT);
-
+  pinMode(fan, OUTPUT);
   digitalWrite(doorMotorEN, HIGH);
 }
 
@@ -140,8 +140,8 @@ void runServer()
             client.println("<p>Click to turn LED on and off.</p>");
 
 
-            client.println("<a href=\"?LEDOn\">On</a>");
-            client.println("<a href=\"?LEDOff\">Off</a>");
+            client.println("<a href=\"?LEDOn\"><button type=\"button\">On</button></a>");
+            client.println("<a href=\"?LEDOff\"><button type=\"button\">Off</button></a>");
             
             if (HTTPRequest.indexOf("LEDOn") > -1)
             {
@@ -156,8 +156,8 @@ void runServer()
             // Door Stuff
             client.println("<p>Click to open/close door.</p>");
            
-           client.println("<a href=\"?openDoor\">Open</a>");
-           client.println("<a href=\"?closeDoor\">Close</a>");
+           client.println("<a href=\"?openDoor\"><button type=\"button\">Open</button></a>");
+           client.println("<a href=\"?closeDoor\"><button type=\"button\">Close</button></a>");
 
            if (HTTPRequest.indexOf("openDoor") > -1)
            {

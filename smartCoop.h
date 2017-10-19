@@ -11,4 +11,4 @@
 #define heatLamp 5
 #define doorReadSwitch1 7
 #define doorReadSwitch2 8
-#define fan 10
+#define fan 9

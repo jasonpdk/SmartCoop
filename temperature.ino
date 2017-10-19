@@ -16,12 +16,12 @@ float temperatureStuff()
   Serial.println();
 
   // turn on light if temperature goes below x
-  if (temperature < 20)
+  if (temperature < 20.0)
   {
     digitalWrite(heatLamp, HIGH);
     digitalWrite(fan, LOW);
   }
-  else
+  else if (temperature > 20.0)
   {
     digitalWrite(fan, HIGH);
     digitalWrite(heatLamp, LOW);
