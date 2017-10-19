@@ -18,11 +18,13 @@ float temperatureStuff()
   // turn on light if temperature goes below x
   if (temperature < 20)
   {
-    digitalWrite(5, HIGH);
+    digitalWrite(heatLamp, HIGH);
+    digitalWrite(fan, LOW);
   }
   else
   {
-    digitalWrite(5, LOW);
+    digitalWrite(fan, HIGH);
+    digitalWrite(heatLamp, LOW);
   }
 
   return temperature;
