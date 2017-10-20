@@ -20,6 +20,7 @@ String currentLine = "";
 String sunrise = "";
 String sunset = "";
 
+
 String HTTPRequest;
 
 bool doorStatus = 0;
@@ -61,25 +62,12 @@ void setup() {
 }
 
 void loop() {
-  connectForGET();
 
-  // this block will be moved
-  if ((doorStatus == 1) && (digitalRead(doorReadSwitch1) == HIGH)) // door open
-  {
-      digitalWrite(doorMotorPin1, HIGH);
-      digitalWrite(doorMotorPin2, LOW);
-    
-  }
-  else if ((doorStatus == 0) && (digitalRead(doorReadSwitch2) == HIGH))
-  {         
-      digitalWrite(doorMotorPin1, LOW);
-      digitalWrite(doorMotorPin2, HIGH);
-  }
-  else
-  {
-    digitalWrite(doorMotorPin1, LOW);
-    digitalWrite(doorMotorPin2, LOW);
-  }
+  connectForGET(); // this will be run once every day
+
+  
+
+  checkDoor();
 
   runServer();
 }
@@ -89,8 +77,6 @@ void loop() {
 void runServer()
 {
   /* SERVER */
-  
-  
   char req_index = 0;
 
   // listen for incoming clients
@@ -139,7 +125,6 @@ void runServer()
             // Light Stuff
             client.println("<p>Click to turn LED on and off.</p>");
 
-
             client.println("<a href=\"?LEDOn\"><button type=\"button\">On</button></a>");
             client.println("<a href=\"?LEDOff\"><button type=\"button\">Off</button></a>");
             
@@ -153,20 +138,19 @@ void runServer()
             }
 
             
-            // Door Stuff
             client.println("<p>Click to open/close door.</p>");
-           
-           client.println("<a href=\"?openDoor\"><button type=\"button\">Open</button></a>");
-           client.println("<a href=\"?closeDoor\"><button type=\"button\">Close</button></a>");
+ 
+            client.println("<a href=\"?openDoor\"><button type=\"button\">Open</button></a>");
+            client.println("<a href=\"?closeDoor\"><button type=\"button\">Close</button></a>");
 
-           if (HTTPRequest.indexOf("openDoor") > -1)
-           {
-            doorStatus = 1;
-           }
-           else if(HTTPRequest.indexOf("closeDoor") > -1)
-           {
-            doorStatus = 0;
-           }
+            if (HTTPRequest.indexOf("openDoor") > -1)
+            {
+              doorStatus = 1;
+            }
+            else if(HTTPRequest.indexOf("closeDoor") > -1)
+            {
+              doorStatus = 0;
+            }
 
             client.println("</body>");
             client.println("</html>");
@@ -194,5 +178,3 @@ void runServer()
     Serial.println("client disconnected");
   }
 }
-
-

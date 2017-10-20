@@ -12,3 +12,4 @@
 #define doorReadSwitch1 7
 #define doorReadSwitch2 8
 #define fan 9
+#define waterLevelSensor 10
