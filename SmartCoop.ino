@@ -10,30 +10,27 @@
 #include <SD.h>
 #include "smartCoop.h"
 
-// Initialize the Ethernet client library
-// with the IP address and port of the server
-// that you want to connect to (port 80 is default for HTTP):
+
 EthernetClient client;
 EthernetServer server(80);
+
+/* GLOBAL VARIABLES - These will not always be here */
 
 String currentLine = "";
 String sunrise = "";
 String sunset = "";
 
-
-String HTTPRequest;
-
 bool doorStatus = 0;
-
-bool getTimes = true;
 bool Connected = 0;
+bool getTimes = true;
+
+float temperature;
 
 void setup() {
-  // Open serial communications and wait for port to open:
+ //Open serial and wait
   Serial.begin(9600);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
+  while (!Serial) 
+  {}
 
   // start the Ethernet connection:
   byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
@@ -59,24 +56,27 @@ void setup() {
   pinMode(doorReadSwitch2, INPUT);
   pinMode(fan, OUTPUT);
   digitalWrite(doorMotorEN, HIGH);
+
+  
 }
 
 void loop() {
-
-  connectForGET(); // this will be run once every day
-
   
 
+  connectForGET(); // this will be run once every day
+  
   checkDoor();
 
-  runServer();
+  temperatureCheckTiming();
+
 }
 
 
 
-void runServer()
+void runServer(bool updateTemp)
 {
   /* SERVER */
+  String HTTPRequest;
   char req_index = 0;
 
   // listen for incoming clients
@@ -108,16 +108,20 @@ void runServer()
             client.println("<html>");
             client.println("<head>");
             client.println("<title>Smart Coop Site Test</title>");
+
+            
+
             client.println("</head>");
             client.println("<body>");
-            client.println("<h1>Smart Coop Site Test</h1>");
-            client.print("<p>The temperature is ");
 
+            client.println("<h1>Smart Coop Site Test</h1>");
+            
            
-            // this is not the right place to run this function, will have to be run using a timer interrupt
-            client.print(temperatureStuff());
+            client.print("<p id=\"temperature\">The temperature is ");
+            client.print(temperature);
             client.print(" degrees Celsius</p>");
             client.println();
+           
             client.println("The sunrise time today is: " + sunrise + " UTC");
             client.println("<br />");
             client.println("The sunset time today is: " + sunset + " UTC");

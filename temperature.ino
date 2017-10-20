@@ -6,14 +6,38 @@
  * Jason Keane
 */
 
+
+void temperatureCheckTiming()
+{
+  bool updateWebTemp;
+  // Check temperature ever 25 seconds
+  const unsigned long sampleTime = 5 * 1000UL;
+  static unsigned long lastSampleTime = 0 - sampleTime;  
+
+  unsigned long now = millis();
+ 
+  if (now - lastSampleTime >= sampleTime)
+  {
+    lastSampleTime += sampleTime;
+    temperature = temperatureStuff();  
+    updateWebTemp = true;
+    Serial.println(temperature);
+  }
+  else
+  {
+    updateWebTemp = false;
+  }
+
+  runServer(updateWebTemp);
+}
+
 float temperatureStuff()
 {
-  float temperature;
   float reading = analogRead(TMP36Pin);
   temperature = (((reading) * (5000 / 1024.0)) - 500) / 10;
-  Serial.print("The temperature is ");
-  Serial.print(temperature);
-  Serial.println();
+  //Serial.print("The temperature is ");
+  //Serial.print(temperature);
+  //Serial.println();
 
   // turn on light if temperature goes below x
   if (temperature < 20.0)
@@ -29,3 +53,4 @@ float temperatureStuff()
 
   return temperature;
 }
+

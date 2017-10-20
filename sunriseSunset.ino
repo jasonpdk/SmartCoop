@@ -73,7 +73,6 @@ void getSunrise()
 /* Connects to the server api.sunrise-sunset.org */
 void connectForGET()
 {
-
   // will need to run this block every day using RTC on Galileo
   if (getTimes)
   {
