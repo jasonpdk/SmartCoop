@@ -8,6 +8,8 @@
 void getSunrise()
 {
   int sunriseHours, sunriseMinutes;
+  int sunsetHours, sunsetMinutes;
+
   /* FETCH */
   // if there are incoming bytes available
   // from the server, read them and print them:
@@ -42,7 +44,8 @@ void getSunrise()
     }
   }
 
-  // converts the strings into separate integers for hours and minutes (unfinished)
+  /* converts the strings into separate integers for hours and minutes (unfinished) */
+  // sunrise
   String stringRiseHours = "", stringRiseMinutes = "";
 
   int i;
@@ -57,6 +60,21 @@ void getSunrise()
     stringRiseMinutes += sunrise[i];
   }
   sunriseMinutes = stringRiseMinutes.toInt();
+
+  // sunset (NEEDS TESTING!!)
+  String stringSetHours = "", stringSetMinutes = "";
+
+  for (i = 0; i < sunset.indexOf(':'); i++)
+  {
+    stringSetHours += sunset[i];
+  }
+  sunsetHours = stringSetHours.toInt();
+
+  for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++)
+  {
+    stringSetMinutes += sunset[i];
+  }
+  sunsetMinutes = stringSetMinutes.toInt();
 
   // if the server's disconnected, stop the client:
   if (!client.connected()) {

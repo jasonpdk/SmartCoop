@@ -26,7 +26,8 @@ bool getTimes = true;
 
 float temperature;
 
-void setup() {
+void setup()
+{
  //Open serial and wait
   Serial.begin(9600);
   while (!Serial)
@@ -60,15 +61,11 @@ void setup() {
 
 }
 
-void loop() {
-
-
+void loop()
+{
   connectForGET(); // this will be run once every day
-
   checkDoor();
-
   temperatureCheckTiming();
-
 }
 
 
