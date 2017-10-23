@@ -9,26 +9,20 @@
 
 void temperatureCheckTiming()
 {
-  bool updateWebTemp;
   // Check temperature ever 25 seconds
   const unsigned long sampleTime = 5 * 1000UL;
-  static unsigned long lastSampleTime = 0 - sampleTime;  
+  static unsigned long lastSampleTime = 0 - sampleTime;
 
   unsigned long now = millis();
- 
+
   if (now - lastSampleTime >= sampleTime)
   {
     lastSampleTime += sampleTime;
-    temperature = temperatureStuff();  
-    updateWebTemp = true;
+    temperature = temperatureStuff();
     Serial.println(temperature);
   }
-  else
-  {
-    updateWebTemp = false;
-  }
 
-  runServer(updateWebTemp);
+  runServer();
 }
 
 float temperatureStuff()
@@ -53,4 +47,3 @@ float temperatureStuff()
 
   return temperature;
 }
-
