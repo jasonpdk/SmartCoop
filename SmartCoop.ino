@@ -1,6 +1,6 @@
 
 /*
-  Smart Coop: An Automated Chicken Coop
+  Smart Coop Revision 4
   Jason Keane
   7/10//17
 */
@@ -29,7 +29,7 @@ float temperature;
 void setup() {
  //Open serial and wait
   Serial.begin(9600);
-  while (!Serial)
+  while (!Serial) 
   {}
 
   // start the Ethernet connection:
@@ -57,14 +57,14 @@ void setup() {
   pinMode(fan, OUTPUT);
   digitalWrite(doorMotorEN, HIGH);
 
-
+  
 }
 
 void loop() {
-
+  
 
   connectForGET(); // this will be run once every day
-
+  
   checkDoor();
 
   temperatureCheckTiming();
@@ -97,109 +97,31 @@ void runServer(bool updateTemp)
         // so you can send a reply
         if (c == '\n' && currentLineIsBlank) {
           // send a standard http response header
+          client.println("HTTP/1.1 200 OK");
+          client.println("Content-Type: text/html");
+          client.println("Connection: close");  // the connection will be closed after completion of the response
+          // client.println("Refresh: 3");  // refresh the page automatically every 5 sec
+          client.println();
 
 
+            client.println("<!DOCTYPE html>");
+            client.println("<html>");
+            client.println("<head>");
+            client.println("<title>Smart Coop Site Test</title>");
 
+            
 
-            if (HTTPRequest.indexOf("temperature") > -1)
-            {
+            client.println("</head>");
+            client.println("<body>");
 
-              client.print(temperature);
-
-            }
-            else
-            {
-              client.println("HTTP/1.1 200 OK");
-              client.println("Content-Type: text/html");
-              client.println("Connection: close");  // the connection will be closed after completion of the response
-              // client.println("Refresh: 3");  // refresh the page automatically every 5 sec
-              client.println();
-
-
-              client.println("<!DOCTYPE html>");
-              client.println("<html>");
-              client.println("<head>");
-              client.println("<title>Smart Coop Site Test</title>");
-
-              client.println("<script type=\"text/javascript\">");
-              client.println("function getTemp() {");
-              client.println("var request = new XMLHttpRequest();");
-              client.println("request.onreadystatechange = function() {");
-              client.println("if (this.readyState == 4) {");
-              client.println("if (this.status == 200) {");
-              client.println("if (this.responseText != null) {");
-              client.println("document.getElementById(\"temperature\").innerHTML = this.responseText;");
-              client.println("}}}}");
-              client.println("request.open(\"GET\", \"temperature\",true);");
-              client.println("request.send(null);");
-              client.println("}");
-              client.println("</script>");
-
-              client.println("</head>");
-              client.println("<body>");
-
-              client.println("<h1>Smart Coop Site Test</h1>");
-              Serial.println(updateTemp);
-
-              if (updateTemp)
-              {
-                client.println("<script type=\"text/javascript\">getTemp()</script>");
-              }
-
-              client.print("<p id=\"temperature\">The temperature is </p>");
-             /* client.print(temperature);
-              client.print("</p>");
-              client.println();*/
-
-              client.println("The sunrise time today is: " + sunrise + " UTC");
-              client.println("<br />");
-              client.println("The sunset time today is: " + sunset + " UTC");
-
-              // Light Stuff
-              client.println("<p>Click to turn LED on and off.</p>");
-
-              client.println("<a href=\"?LEDOn\"><button type=\"button\">On</button></a>");
-              client.println("<a href=\"?LEDOff\"><button type=\"button\">Off</button></a>");
-
-              if (HTTPRequest.indexOf("LEDOn") > -1)
-              {
-                digitalWrite(6, HIGH);
-              }
-              else if (HTTPRequest.indexOf("LEDOff") > -1)
-              {
-                digitalWrite(6, LOW);
-              }
-
-
-              client.println("<p>Click to open/close door.</p>");
-
-              client.println("<a href=\"?openDoor\"><button type=\"button\">Open</button></a>");
-              client.println("<a href=\"?closeDoor\"><button type=\"button\">Close</button></a>");
-
-              if (HTTPRequest.indexOf("openDoor") > -1)
-              {
-                doorStatus = 1;
-              }
-              else if(HTTPRequest.indexOf("closeDoor") > -1)
-              {
-                doorStatus = 0;
-              }
-
-              client.println("</body>");
-              client.println("</html>");
-            }
-
-           /* Serial.println(updateTemp);
-            if (updateTemp)
-            {
-              client.println("<script type=\"text/javascript\">getTemp()</script>");
-            }
-
+            client.println("<h1>Smart Coop Site Test</h1>");
+            
+           
             client.print("<p id=\"temperature\">The temperature is ");
             client.print(temperature);
-            client.print("</p>");
+            client.print(" degrees Celsius</p>");
             client.println();
-
+           
             client.println("The sunrise time today is: " + sunrise + " UTC");
             client.println("<br />");
             client.println("The sunset time today is: " + sunset + " UTC");
@@ -209,7 +131,7 @@ void runServer(bool updateTemp)
 
             client.println("<a href=\"?LEDOn\"><button type=\"button\">On</button></a>");
             client.println("<a href=\"?LEDOff\"><button type=\"button\">Off</button></a>");
-
+            
             if (HTTPRequest.indexOf("LEDOn") > -1)
             {
               digitalWrite(6, HIGH);
@@ -219,9 +141,9 @@ void runServer(bool updateTemp)
               digitalWrite(6, LOW);
             }
 
-
+            
             client.println("<p>Click to open/close door.</p>");
-
+ 
             client.println("<a href=\"?openDoor\"><button type=\"button\">Open</button></a>");
             client.println("<a href=\"?closeDoor\"><button type=\"button\">Close</button></a>");
 
@@ -235,13 +157,13 @@ void runServer(bool updateTemp)
             }
 
             client.println("</body>");
-            client.println("</html>");*/
+            client.println("</html>");
 
 
           req_index = 0; // reset request index
 
           // finished with the HTTP request so clear it
-          HTTPRequest = "";
+          HTTPRequest = ""; 
           break;
         }
         if (c == '\n') {
