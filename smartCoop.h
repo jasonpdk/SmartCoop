@@ -9,6 +9,7 @@
 #define doorMotorPin2 3
 #define doorMotorEN 4
 #define heatLamp 5
+#define lightPin 6
 #define doorReadSwitch1 7
 #define doorReadSwitch2 8
 #define fan 9
