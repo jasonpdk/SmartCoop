@@ -2,7 +2,7 @@
 /*
   Smart Coop: An Automated Chicken Coop
   Jason Keane
-  23/10//17
+  24/10//17
 */
 
 #include <SPI.h>
