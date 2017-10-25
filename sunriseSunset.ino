@@ -5,6 +5,9 @@
 */
 
 /* Fetches the sunrise and sunset times */
+
+//char json[400] = {'{','"','r','e','s','u','l','t','s','"'};
+//char c;
 void getSunrise()
 {
   int sunriseHours, sunriseMinutes;
@@ -13,18 +16,44 @@ void getSunrise()
   /* FETCH */
   // if there are incoming bytes available
   // from the server, read them and print them:
+
+
+  /* Better JSON Code
+  int index = 10;
+  while (client.available())
+  {
+    c = client.read();
+    currentLine += c;
+
+      if (currentLine.startsWith("{\"results\":"))
+      {
+        json[index] = c;
+        index++;
+      }
+
+      if (c == '\n')
+      {
+        currentLine = "";
+      }
+  }
+  client.stop();
+  Serial.print(json);
+  // better JSON code
+
+  StaticJsonBuffer<400> jsonBuffer;
+  JsonObject& root = jsonBuffer.parseObject(json);
+
+  sunrise = root["sunrise"];
+  sunset = root["sunset"];
+
+  Serial.println(sunrise);
+  Serial.println(sunset);
+
+  */
+
   if (client.available())
   {
     char c = client.read();
-
-    // better JSON code
-    /*char json[] += c;
-    StaticJsonBuffer<200> jsonBuffer;
-    JsonObject& root = jsonBuffer.parseObject(json);
-
-    sunrise = root["sunrise"];
-    sunset = root["sunset"];*/
-
     currentLine += c;
 
 
@@ -52,48 +81,49 @@ void getSunrise()
         currentLine = "";
       }
     }
+  }
 
-    /* converts the strings into separate integers for hours and minutes (unfinished) */
-    // sunrise
-    String stringRiseHours = "", stringRiseMinutes = "";
 
-    int i;
-    for (i = 0; i < sunrise.indexOf(':'); i++)
-    {
-      stringRiseHours += sunrise[i];
-    }
-    sunriseHours = stringRiseHours.toInt();
+  /* converts the strings into separate integers for hours and minutes (unfinished) */
+  // sunrise
+  String stringRiseHours = "", stringRiseMinutes = "";
 
-    for (i = sunrise.indexOf(':') + 1; i < sunrise.lastIndexOf(':'); i++)
-    {
-      stringRiseMinutes += sunrise[i];
-    }
-    sunriseMinutes = stringRiseMinutes.toInt();
+  int i;
+  for (i = 0; i < sunrise.indexOf(':'); i++)
+  {
+    stringRiseHours += sunrise[i];
+  }
+  sunriseHours = stringRiseHours.toInt();
 
-    // sunset (NEEDS TESTING!!)
-    String stringSetHours = "", stringSetMinutes = "";
+  for (i = sunrise.indexOf(':') + 1; i < sunrise.lastIndexOf(':'); i++)
+  {
+    stringRiseMinutes += sunrise[i];
+  }
+  sunriseMinutes = stringRiseMinutes.toInt();
 
-    for (i = 0; i < sunset.indexOf(':'); i++)
-    {
-      stringSetHours += sunset[i];
-    }
-    sunsetHours = stringSetHours.toInt();
+  // sunset (NEEDS TESTING!!)
+  String stringSetHours = "", stringSetMinutes = "";
 
-    for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++)
-    {
-      stringSetMinutes += sunset[i];
-    }
-    sunsetMinutes = stringSetMinutes.toInt();
+  for (i = 0; i < sunset.indexOf(':'); i++)
+  {
+    stringSetHours += sunset[i];
+  }
+  sunsetHours = stringSetHours.toInt();
 
-    // if the server's disconnected, stop the client:
-    if (!client.connected()) {
-      Serial.println();
-      Serial.println("disconnecting.");
-      client.stop();
-      Connected = false;
-      getTimes = false;
+  for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++)
+  {
+    stringSetMinutes += sunset[i];
+  }
+  sunsetMinutes = stringSetMinutes.toInt();
 
-    }
+  // if the server's disconnected, stop the client:
+  if (!client.connected()) {
+    Serial.println();
+    Serial.println("disconnecting.");
+    client.stop();
+    Connected = false;
+    getTimes = false;
+
   }
 }
 
