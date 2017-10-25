@@ -1,4 +1,4 @@
-/* Smart Coop Rev 3: Sunrise and Sunset
+/* SmartCoop: Sunrise and Sunset
  * Connects to api.sunrise-sunset.org, fetches the sunrise and sunset times, and prints them out.
  *
  * Jason Keane
@@ -13,8 +13,18 @@ void getSunrise()
   /* FETCH */
   // if there are incoming bytes available
   // from the server, read them and print them:
-  if (client.available()) {
+  if (client.available())
+  {
     char c = client.read();
+
+    // better JSON code
+    /*char json[] += c;
+    StaticJsonBuffer<200> jsonBuffer;
+    JsonObject& root = jsonBuffer.parseObject(json);
+
+    sunrise = root["sunrise"];
+    sunset = root["sunset"];*/
+
     currentLine += c;
 
 
@@ -42,48 +52,48 @@ void getSunrise()
         currentLine = "";
       }
     }
-  }
 
-  /* converts the strings into separate integers for hours and minutes (unfinished) */
-  // sunrise
-  String stringRiseHours = "", stringRiseMinutes = "";
+    /* converts the strings into separate integers for hours and minutes (unfinished) */
+    // sunrise
+    String stringRiseHours = "", stringRiseMinutes = "";
 
-  int i;
-  for (i = 0; i < sunrise.indexOf(':'); i++)
-  {
-    stringRiseHours += sunrise[i];
-  }
-  sunriseHours = stringRiseHours.toInt();
+    int i;
+    for (i = 0; i < sunrise.indexOf(':'); i++)
+    {
+      stringRiseHours += sunrise[i];
+    }
+    sunriseHours = stringRiseHours.toInt();
 
-  for (i = sunrise.indexOf(':') + 1; i < sunrise.lastIndexOf(':'); i++)
-  {
-    stringRiseMinutes += sunrise[i];
-  }
-  sunriseMinutes = stringRiseMinutes.toInt();
+    for (i = sunrise.indexOf(':') + 1; i < sunrise.lastIndexOf(':'); i++)
+    {
+      stringRiseMinutes += sunrise[i];
+    }
+    sunriseMinutes = stringRiseMinutes.toInt();
 
-  // sunset (NEEDS TESTING!!)
-  String stringSetHours = "", stringSetMinutes = "";
+    // sunset (NEEDS TESTING!!)
+    String stringSetHours = "", stringSetMinutes = "";
 
-  for (i = 0; i < sunset.indexOf(':'); i++)
-  {
-    stringSetHours += sunset[i];
-  }
-  sunsetHours = stringSetHours.toInt();
+    for (i = 0; i < sunset.indexOf(':'); i++)
+    {
+      stringSetHours += sunset[i];
+    }
+    sunsetHours = stringSetHours.toInt();
 
-  for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++)
-  {
-    stringSetMinutes += sunset[i];
-  }
-  sunsetMinutes = stringSetMinutes.toInt();
+    for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++)
+    {
+      stringSetMinutes += sunset[i];
+    }
+    sunsetMinutes = stringSetMinutes.toInt();
 
-  // if the server's disconnected, stop the client:
-  if (!client.connected()) {
-    Serial.println();
-    Serial.println("disconnecting.");
-    client.stop();
-    Connected = false;
-    getTimes = false;
+    // if the server's disconnected, stop the client:
+    if (!client.connected()) {
+      Serial.println();
+      Serial.println("disconnecting.");
+      client.stop();
+      Connected = false;
+      getTimes = false;
 
+    }
   }
 }
 
