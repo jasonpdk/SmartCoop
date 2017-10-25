@@ -1,4 +1,3 @@
-
 /*
   Smart Coop: An Automated Chicken Coop
   Jason Keane
@@ -9,13 +8,12 @@
 #include <Ethernet.h>
 #include <SD.h>
 #include "smartCoop.h"
-
+#include <ArduinoJson.h>
 
 EthernetClient client;
 EthernetServer server(80);
 
 /* GLOBAL VARIABLES - These will not always be here */
-
 String currentLine = "";
 String sunrise = "";
 String sunset = "";
