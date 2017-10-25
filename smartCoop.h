@@ -1,4 +1,4 @@
-/* Smart Coop Rev 3: Header File
+/* SmartCoop: Header File
  * Defines all of the pins being used.
  *
  * Jason Keane
