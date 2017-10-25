@@ -46,8 +46,8 @@ void setup()
   system("ntpdate -u pool.ntp.org"); // set the system time using NTP
 
   // set pins
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
+  pinMode(heatLamp, OUTPUT);
+  pinMode(lightPin, OUTPUT);
   pinMode(doorMotorEN, OUTPUT);
   pinMode(doorMotorPin1, OUTPUT);
   pinMode(doorMotorPin2, OUTPUT);
