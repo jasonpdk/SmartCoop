@@ -37,9 +37,6 @@ float temperatureStuff()
 {
   float reading = analogRead(TMP36Pin);
   temperature = (((reading) * (5000 / 1024.0)) - 500) / 10;
-  //Serial.print("The temperature is ");
-  //Serial.print(temperature);
-  //Serial.println();
 
   // turn on light if temperature goes below x
   if (temperature < 20.0)
