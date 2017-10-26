@@ -1,11 +1,7 @@
 /*
   Smart Coop: An Automated Chicken Coop
   Jason Keane
-<<<<<<< HEAD
-  23/10/17 
-=======
   24/10//17
->>>>>>> develop
 */
 
 #include <SPI.h>
@@ -60,31 +56,19 @@ void setup()
   pinMode(fan, OUTPUT);
   digitalWrite(doorMotorEN, HIGH);
 
-<<<<<<< HEAD
 
 }
-
-void loop() {
-
-=======
-
-}
->>>>>>> develop
 
 void loop()
 {
   connectForGET(); // this will be run once every day
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
   checkDoor();
   temperatureCheckTiming();
 }
 
 
 
-void runServer()
+void runServer(bool updateTemp)
 {
   /* SERVER */
   String HTTPRequest;
