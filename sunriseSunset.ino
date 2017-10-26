@@ -6,8 +6,7 @@
 
 /* Fetches the sunrise and sunset times */
 
-//char json[400] = {'{','"','r','e','s','u','l','t','s','"'};
-//char c;
+
 void getSunrise()
 {
   int sunriseHours, sunriseMinutes;
