@@ -24,6 +24,14 @@ void temperatureCheckTiming()
     //uploadToThingSpeak(temperature, 1);
     updateWebTemp = true;
     Serial.println(temperature);
+
+    // DHT11
+    humidity = dht.readHumidity();
+    //uploadToThingSpeak(humidity, 3);
+
+    insideTemperature = dht.readTemperature();
+    //uploadToThingSpeak(temperature, 2);
+
   }
   else
   {
