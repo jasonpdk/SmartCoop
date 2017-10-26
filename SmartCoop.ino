@@ -8,7 +8,6 @@
 #include <Ethernet.h>
 #include <SD.h>
 #include "smartCoop.h"
-#include <ArduinoJson.h>
 
 EthernetClient client;
 EthernetServer server(80);
