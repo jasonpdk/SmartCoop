@@ -1,4 +1,4 @@
-/* Smart Coop Rev 3: Tmperature
+/* SmartCoop: Temperature
  * Reads the temperature from the TMP36 and returns the value in celsius. If this goes below X degrees
  * the heat lamp will turn on.
  * Feature to add: If temperature goes above X turn on the fan.
@@ -10,7 +10,11 @@
 void temperatureCheckTiming()
 {
   // Check temperature ever 25 seconds
+<<<<<<< HEAD
   const unsigned long sampleTime = 5 * 1000UL;
+=======
+  const unsigned long sampleTime = 60 * 1000UL;
+>>>>>>> develop
   static unsigned long lastSampleTime = 0 - sampleTime;
 
   unsigned long now = millis();
@@ -19,6 +23,12 @@ void temperatureCheckTiming()
   {
     lastSampleTime += sampleTime;
     temperature = temperatureStuff();
+<<<<<<< HEAD
+=======
+    // commented out to save requests, this will probably need to be run less often than the temperature check
+    //uploadToThingSpeak(temperature, 1);
+    updateWebTemp = true;
+>>>>>>> develop
     Serial.println(temperature);
   }
 
@@ -44,6 +54,7 @@ float temperatureStuff()
     digitalWrite(fan, HIGH);
     digitalWrite(heatLamp, LOW);
   }
+
 
   return temperature;
 }
