@@ -17,40 +17,6 @@ void getSunrise()
   // if there are incoming bytes available
   // from the server, read them and print them:
 
-
-  /* Better JSON Code
-  int index = 10;
-  while (client.available())
-  {
-    c = client.read();
-    currentLine += c;
-
-      if (currentLine.startsWith("{\"results\":"))
-      {
-        json[index] = c;
-        index++;
-      }
-
-      if (c == '\n')
-      {
-        currentLine = "";
-      }
-  }
-  client.stop();
-  Serial.print(json);
-  // better JSON code
-
-  StaticJsonBuffer<400> jsonBuffer;
-  JsonObject& root = jsonBuffer.parseObject(json);
-
-  sunrise = root["sunrise"];
-  sunset = root["sunset"];
-
-  Serial.println(sunrise);
-  Serial.println(sunset);
-
-  */
-
   if (client.available())
   {
     char c = client.read();

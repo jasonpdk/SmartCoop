@@ -95,22 +95,17 @@ void runServer(bool updateTemp)
           client.println("HTTP/1.1 200 OK");
           client.println("Content-Type: text/html");
           client.println("Connection: close");  // the connection will be closed after completion of the response
-          // client.println("Refresh: 3");  // refresh the page automatically every 5 sec
           client.println();
-
 
             client.println("<!DOCTYPE html>");
             client.println("<html>");
             client.println("<head>");
             client.println("<title>Smart Coop Site Test</title>");
 
-
-
             client.println("</head>");
             client.println("<body>");
 
             client.println("<h1>Smart Coop Site Test</h1>");
-
 
             client.print("<p id=\"temperature\">The temperature is ");
             client.print(temperature);
@@ -135,7 +130,6 @@ void runServer(bool updateTemp)
             {
               digitalWrite(lightPin, LOW);
             }
-
 
             client.println("<p>Click to open/close door.</p>");
 
