@@ -1,21 +1,23 @@
-
 /*
   Smart Coop: An Automated Chicken Coop
   Jason Keane
+<<<<<<< HEAD
   23/10/17 
+=======
+  24/10//17
+>>>>>>> develop
 */
 
 #include <SPI.h>
 #include <Ethernet.h>
 #include <SD.h>
 #include "smartCoop.h"
-
+#include <ArduinoJson.h>
 
 EthernetClient client;
 EthernetServer server(80);
 
 /* GLOBAL VARIABLES - These will not always be here */
-
 String currentLine = "";
 String sunrise = "";
 String sunset = "";
@@ -26,7 +28,8 @@ bool getTimes = true;
 
 float temperature;
 
-void setup() {
+void setup()
+{
  //Open serial and wait
   Serial.begin(9600);
   while (!Serial)
@@ -47,8 +50,8 @@ void setup() {
   system("ntpdate -u pool.ntp.org"); // set the system time using NTP
 
   // set pins
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
+  pinMode(heatLamp, OUTPUT);
+  pinMode(lightPin, OUTPUT);
   pinMode(doorMotorEN, OUTPUT);
   pinMode(doorMotorPin1, OUTPUT);
   pinMode(doorMotorPin2, OUTPUT);
@@ -57,18 +60,26 @@ void setup() {
   pinMode(fan, OUTPUT);
   digitalWrite(doorMotorEN, HIGH);
 
+<<<<<<< HEAD
 
 }
 
 void loop() {
 
+=======
 
+}
+>>>>>>> develop
+
+void loop()
+{
   connectForGET(); // this will be run once every day
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
   checkDoor();
-
   temperatureCheckTiming();
-
 }
 
 
@@ -134,11 +145,11 @@ void runServer()
 
             if (HTTPRequest.indexOf("LEDOn") > -1)
             {
-              digitalWrite(6, HIGH);
+              digitalWrite(lightPin, HIGH);
             }
             else if (HTTPRequest.indexOf("LEDOff") > -1)
             {
-              digitalWrite(6, LOW);
+              digitalWrite(lightPin, LOW);
             }
 
 

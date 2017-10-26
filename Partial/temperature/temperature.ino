@@ -9,14 +9,12 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int tempAnalogReading = analogRead(temperatureSensorPin);
+  int reading = analogRead(temperatureSensorPin);
   //int temp = (lm35Reading * 5000)/(1024*10);
-  float mv = ((tempAnalogReading)*(5000/1024.0));
+  float temperature = (((reading) * (5000 / 1024.0)) - 500) / 10;
 
-  Serial.print(tempAnalogReading); 
-  Serial.print(" ");
-  Serial.print((mv-500)/10);
+  Serial.print(temperature);
   Serial.println();
   delay(3000);
-  
+
 }

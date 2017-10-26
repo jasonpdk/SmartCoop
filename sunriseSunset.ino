@@ -1,17 +1,58 @@
-/* Smart Coop Rev 3: Sunrise and Sunset
+/* SmartCoop: Sunrise and Sunset
  * Connects to api.sunrise-sunset.org, fetches the sunrise and sunset times, and prints them out.
  *
  * Jason Keane
 */
 
 /* Fetches the sunrise and sunset times */
+
+//char json[400] = {'{','"','r','e','s','u','l','t','s','"'};
+//char c;
 void getSunrise()
 {
   int sunriseHours, sunriseMinutes;
+  int sunsetHours, sunsetMinutes;
+
   /* FETCH */
   // if there are incoming bytes available
   // from the server, read them and print them:
-  if (client.available()) {
+
+
+  /* Better JSON Code
+  int index = 10;
+  while (client.available())
+  {
+    c = client.read();
+    currentLine += c;
+
+      if (currentLine.startsWith("{\"results\":"))
+      {
+        json[index] = c;
+        index++;
+      }
+
+      if (c == '\n')
+      {
+        currentLine = "";
+      }
+  }
+  client.stop();
+  Serial.print(json);
+  // better JSON code
+
+  StaticJsonBuffer<400> jsonBuffer;
+  JsonObject& root = jsonBuffer.parseObject(json);
+
+  sunrise = root["sunrise"];
+  sunset = root["sunset"];
+
+  Serial.println(sunrise);
+  Serial.println(sunset);
+
+  */
+
+  if (client.available())
+  {
     char c = client.read();
     currentLine += c;
 
@@ -42,7 +83,9 @@ void getSunrise()
     }
   }
 
-  // converts the strings into separate integers for hours and minutes (unfinished)
+
+  /* converts the strings into separate integers for hours and minutes (unfinished) */
+  // sunrise
   String stringRiseHours = "", stringRiseMinutes = "";
 
   int i;
@@ -57,6 +100,21 @@ void getSunrise()
     stringRiseMinutes += sunrise[i];
   }
   sunriseMinutes = stringRiseMinutes.toInt();
+
+  // sunset (NEEDS TESTING!!)
+  String stringSetHours = "", stringSetMinutes = "";
+
+  for (i = 0; i < sunset.indexOf(':'); i++)
+  {
+    stringSetHours += sunset[i];
+  }
+  sunsetHours = stringSetHours.toInt();
+
+  for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++)
+  {
+    stringSetMinutes += sunset[i];
+  }
+  sunsetMinutes = stringSetMinutes.toInt();
 
   // if the server's disconnected, stop the client:
   if (!client.connected()) {
