@@ -21,17 +21,19 @@ void temperatureCheckTiming()
     lastSampleTime += sampleTime;
     temperature = temperatureStuff();
     // commented out to save requests, this will probably need to be run less often than the temperature check
-    //uploadToThingSpeak(temperature, 1);
+
     updateWebTemp = true;
     Serial.println(temperature);
 
     // DHT11
     humidity = dht.readHumidity();
-    //uploadToThingSpeak(humidity, 3);
+    Serial.println(humidity);
+
 
     insideTemperature = dht.readTemperature();
-    //uploadToThingSpeak(temperature, 2);
+    Serial.println(insideTemperature);
 
+    uploadToThingSpeak(insideTemperature, temperature, humidity);
   }
   else
   {
