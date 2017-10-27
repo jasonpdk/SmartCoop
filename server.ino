@@ -140,9 +140,9 @@ void runServer(bool updateTemp)
             client.println("<div id=\"mainContent\">");
             client.println("<div id=\"content\">");
             client.println("<h2>GRAPHS</h2>");
-            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>");
-            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>");
-            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>");
+            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&api_key=4FTN1ZL8P525S956&results=60&type=line&update=15\"></iframe>");
+            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&api_key=4FTN1ZL8P525S956&results=60&type=line&update=15\"></iframe>");
+            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&api_key=4FTN1ZL8P525S956&results=60&type=line&update=15\"></iframe>");
 
             client.println("</div>");
             client.println("</div>");
