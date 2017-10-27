@@ -14,3 +14,8 @@
 #define doorReadSwitch2 8
 #define fan 9
 #define waterLevelSensor 10
+
+/* DHT 11 */
+#define DHTTYPE DHT11 
+#define DHTIN 11
+#define DHTOUT 12

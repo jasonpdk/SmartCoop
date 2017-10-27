@@ -8,6 +8,7 @@
 #include <Ethernet.h>
 #include <SD.h>
 #include "smartCoop.h"
+#include "DHT.h"
 
 EthernetClient client;
 EthernetServer server(80);
@@ -22,6 +23,11 @@ bool Connected = 0;
 bool getTimes = true;
 
 float temperature;
+float humidity;
+float insideTemperature;
+
+// DHT11 Object
+DHT dht(DHTIN,DHTOUT, DHTTYPE);
 
 void setup()
 {
@@ -44,6 +50,9 @@ void setup()
   Serial.println(Ethernet.localIP());
   system("ntpdate -u pool.ntp.org"); // set the system time using NTP
 
+  // dht11 begin
+  dht.begin();
+
   // set pins
   pinMode(heatLamp, OUTPUT);
   pinMode(lightPin, OUTPUT);
@@ -54,8 +63,6 @@ void setup()
   pinMode(doorReadSwitch2, INPUT);
   pinMode(fan, OUTPUT);
   digitalWrite(doorMotorEN, HIGH);
-
-
 }
 
 void loop()
@@ -106,10 +113,17 @@ void runServer(bool updateTemp)
 
             client.println("<h1>Smart Coop Site Test</h1>");
 
-            client.print("<p id=\"temperature\">The temperature is ");
+            client.print("<p id=\"temperature\">The outside temperature is ");
             client.print(temperature);
             client.print(" degrees Celsius</p>");
             client.println();
+            client.print("<p>The inside temperature is ");
+            client.print(insideTemperature);
+            client.print(" degrees celsius</p>");
+            client.println();
+            client.print("<p>The humidity is ");
+            client.print(humidity);
+            client.println("%</p>");
 
             client.println("The sunrise time today is: " + sunrise + " UTC");
             client.println("<br />");
@@ -144,6 +158,10 @@ void runServer(bool updateTemp)
               doorStatus = 0;
             }
 
+            client.println("<h2>GRAPHS</h2>");
+            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>");
+            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>");
+            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>");
             client.println("</body>");
             client.println("</html>");
 
