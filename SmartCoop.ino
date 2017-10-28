@@ -41,10 +41,9 @@ void setup()
 
   // start the Ethernet connection:
   byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-  if (Ethernet.begin(mac) == 0) {
-    Serial.println("Failed to configure Ethernet using DHCP");
+  IPAddress ip(192,168,41,100);
+  Ethernet.begin(mac, ip);
 
-  }
   // give the Ethernet a second
   delay(1000);
 
@@ -70,6 +69,7 @@ void setup()
   pinMode(doorReadSwitch2, INPUT);
   pinMode(fan, OUTPUT);
   digitalWrite(doorMotorEN, HIGH);
+
 }
 
 void loop()

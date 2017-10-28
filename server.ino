@@ -56,6 +56,7 @@ void runServer(bool updateTemp)
             client.println("<div id=\"navBar\">");
             client.println("<a class=\"active\" href=\"/\">Home</a>");
             client.println("<a href=\"/graphs\">Graphs</a>");
+            client.println("<a href=\"http://192.168.41.100:8080/camera.html\">Camera</a>");
             client.println("</div>"); // close navBar div
 
 
@@ -147,6 +148,7 @@ void runServer(bool updateTemp)
             client.println("<div id=\"navBar\">");
             client.println("<a href=\"/\">Home</a>");
             client.println("<a class=\"active\" href=\"/graphs\">Graphs</a>");
+            client.println("<a href=\"http://192.168.41.100:8080/camera.html\">Camera</a>");
             client.println("</div>"); // close navBar div
 
             client.println("<div id=\"mainContent\">");
@@ -165,6 +167,7 @@ void runServer(bool updateTemp)
             client.println("</body>");
             client.println("</html>");
           }
+
           req_index = 0; // reset request index
 
           // finished with the HTTP request so clear it
