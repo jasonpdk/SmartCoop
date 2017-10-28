@@ -45,18 +45,23 @@ void runServer(bool updateTemp)
             client.println("</head>");
             client.println("<body>");
             client.println("<div id=\"wrapper\">");
-            client.println("<h1>Smart<span class=\"logoColour\">Coop</span></h1>");
+            client.println("<div id=\"header\">");
+            client.println("<div id=\"logo\">");
+            client.println("<h1>SmartCoop</h1>");
+            client.println("<h2>An Automated Chicken Coop</h2>");
+            client.println("</div>"); // close logo div
+            client.println("</div>"); // close header div
 
             // site nav menu
-            client.println("<div class=\"topnav\" id=\"myTopnav\">");
+            client.println("<div id=\"navBar\">");
             client.println("<a class=\"active\" href=\"/\">Home</a>");
             client.println("<a href=\"/graphs\">Graphs</a>");
-            client.println("</div>");
+            client.println("</div>"); // close navBar div
 
 
             client.println("<div id=\"mainContent\">");
-            client.println("<div id=\"content\">");
-            client.println("<h2>SENSOR READINGS</h2>");
+            client.println("<div id=\"subContent\">");
+            client.println("<h2>Sensor Readings</h2>");
             client.print("<p class=\"readings\">The outside temperature is ");
             client.print(temperature);
             client.print(" degrees Celsius<br />");
@@ -66,19 +71,20 @@ void runServer(bool updateTemp)
             client.print("The humidity is ");
             client.print(humidity);
             client.println("%");
-            client.println("<br /><a href=\"/graphs\">Click here to see the historical values on a graph.</a><br /><br /></p>");
+            client.println("<br /><a href=\"/graphs\">Click here to see the historical values on a graph.</a></p>");
 
-            client.println("<h2>SUNRISE AND SUNSET TIMES</h2>");
-            client.println("The sunrise time today is: " + sunrise + " UTC");
+            client.println("<h2>Sunrise and Sunset Times</h2>");
+            client.println("<p>The sunrise time today is: " + sunrise + " UTC");
             client.println("<br />");
-            client.println("The sunset time today is: " + sunset + " UTC");
+            client.println("The sunset time today is: " + sunset + " UTC</p>");
 
-            client.println("<h2>CONTROL</h2>");
+            client.println("<h2>Control</h2>");
             // Light Stuff
-            client.println("<p>Click to turn LED on and off.</p>");
+            client.println("<p>Click to turn LED on and off.<br />");
 
             client.println("<a href=\"?LEDOn\"><button type=\"button\">On</button></a>");
             client.println("<a href=\"?LEDOff\"><button type=\"button\">Off</button></a>");
+            client.println("</p>");
 
             if (HTTPRequest.indexOf("LEDOn") > -1)
             {
@@ -89,12 +95,12 @@ void runServer(bool updateTemp)
               digitalWrite(lightPin, LOW);
             }
 
-            client.println("<p>Click to open/close door.</p>");
+            client.println("<p>Click to open/close door.<br />");
 
             client.println("<a href=\"?openDoor\"><button type=\"button\">Open</button></a>");
             client.println("<a href=\"?closeDoor\"><button type=\"button\">Close</button></a>");
+            client.println("</p>");
 
-            client.println("</div>"); // close content div
             if (HTTPRequest.indexOf("openDoor") > -1)
             {
               doorStatus = 1;
@@ -104,6 +110,7 @@ void runServer(bool updateTemp)
               doorStatus = 0;
             }
 
+            client.println("</div>"); // close subContent div
             client.println("</div>"); // close mainContent div
 
             client.println("<div id=\"footer\">");
@@ -129,29 +136,32 @@ void runServer(bool updateTemp)
             client.println("</head>");
             client.println("<body>");
             client.println("<div id=\"wrapper\">");
-            client.println("<h1>Smart<span class=\"logoColour\">Coop</span></h1>");
+            client.println("<div id=\"header\">");
+            client.println("<div id=\"logo\">");
+            client.println("<h1>SmartCoop</h1>");
+            client.println("<h2>An Automated Chicken Coop</h2>");
+            client.println("</div>"); // close logo div
+            client.println("</div>"); // close header div
 
             // site nav menu
-            client.println("<div class=\"topnav\" id=\"myTopnav\">");
+            client.println("<div id=\"navBar\">");
             client.println("<a href=\"/\">Home</a>");
             client.println("<a class=\"active\" href=\"/graphs\">Graphs</a>");
-            client.println("</div>");
+            client.println("</div>"); // close navBar div
 
             client.println("<div id=\"mainContent\">");
-            client.println("<div id=\"content\">");
-            client.println("<h2>GRAPHS</h2>");
+            client.println("<div id=\"subContent\">");
+            client.println("<h2>Graphs</h2>");
             client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&api_key=4FTN1ZL8P525S956&results=60&type=line&update=15\"></iframe>");
             client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&api_key=4FTN1ZL8P525S956&results=60&type=line&update=15\"></iframe>");
             client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&api_key=4FTN1ZL8P525S956&results=60&type=line&update=15\"></iframe>");
 
-            client.println("</div>");
-            client.println("</div>");
+            client.println("</div>"); // close subContent div
+            client.println("</div>"); // close mainContent div
 
-            client.println("<div id=\"footer\">");
-            client.println("<p>SmartCoop: An Automated Chicken Coop - Jason Keane</p>");
-            client.println("</div>"); // close footer div
+            client.println("<div id=\"footer\">SmartCoop: An Automated Chicken Coop - Jason Keane</div>");
 
-            client.println("</div>");
+            client.println("</div>"); // close wrapper div
             client.println("</body>");
             client.println("</html>");
           }
