@@ -10,8 +10,8 @@
 void temperatureCheckTiming()
 {
   bool updateWebTemp;
-  // Check temperature ever 60 seconds
-  const unsigned long sampleTime = 60 * 1000UL;
+  // Check temperature ever 5 minutes
+  const unsigned long sampleTime = (60*5) * 1000UL;
   static unsigned long lastSampleTime = 0 - sampleTime;
 
   unsigned long now = millis();
