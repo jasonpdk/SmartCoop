@@ -20,7 +20,6 @@ void temperatureCheckTiming()
   {
     lastSampleTime += sampleTime;
     temperature = temperatureStuff();
-    // commented out to save requests, this will probably need to be run less often than the temperature check
 
     updateWebTemp = true;
     Serial.println(temperature);
@@ -33,6 +32,7 @@ void temperatureCheckTiming()
     insideTemperature = dht.readTemperature();
     Serial.println(insideTemperature);
 
+    // commented out to save requests, this will probably need to be run less often than the temperature check
     //uploadToThingSpeak(insideTemperature, temperature, humidity);
   }
   else
