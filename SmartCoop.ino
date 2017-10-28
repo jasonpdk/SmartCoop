@@ -29,6 +29,9 @@ float insideTemperature;
 // DHT11 Object
 DHT dht(DHTIN,DHTOUT, DHTTYPE);
 
+// CSS File
+File css;
+
 void setup()
 {
  //Open serial and wait
@@ -53,6 +56,10 @@ void setup()
   // dht11 begin
   dht.begin();
 
+  // SD
+  SD.begin(4);
+
+
   // set pins
   pinMode(heatLamp, OUTPUT);
   pinMode(lightPin, OUTPUT);
@@ -70,121 +77,4 @@ void loop()
   connectForGET(); // this will be run once every day
   checkDoor();
   temperatureCheckTiming();
-}
-
-
-
-void runServer(bool updateTemp)
-{
-  /* SERVER */
-  String HTTPRequest;
-  char req_index = 0;
-
-  // listen for incoming clients
-  EthernetClient client = server.available();
-  if (client) {
-    Serial.println("new client");
-    // an http request ends with a blank line
-    boolean currentLineIsBlank = true;
-    while (client.connected()) {
-      if (client.available()) {
-        char c = client.read();
-
-        HTTPRequest += c;
-
-        Serial.write(c);
-        // if you've gotten to the end of the line (received a newline
-        // character) and the line is blank, the http request has ended,
-        // so you can send a reply
-        if (c == '\n' && currentLineIsBlank) {
-          // send a standard http response header
-          client.println("HTTP/1.1 200 OK");
-          client.println("Content-Type: text/html");
-          client.println("Connection: close");  // the connection will be closed after completion of the response
-          client.println();
-
-            client.println("<!DOCTYPE html>");
-            client.println("<html>");
-            client.println("<head>");
-            client.println("<title>Smart Coop Site Test</title>");
-
-            client.println("</head>");
-            client.println("<body>");
-
-            client.println("<h1>Smart Coop Site Test</h1>");
-
-            client.print("<p id=\"temperature\">The outside temperature is ");
-            client.print(temperature);
-            client.print(" degrees Celsius</p>");
-            client.println();
-            client.print("<p>The inside temperature is ");
-            client.print(insideTemperature);
-            client.print(" degrees celsius</p>");
-            client.println();
-            client.print("<p>The humidity is ");
-            client.print(humidity);
-            client.println("%</p>");
-
-            client.println("The sunrise time today is: " + sunrise + " UTC");
-            client.println("<br />");
-            client.println("The sunset time today is: " + sunset + " UTC");
-
-            // Light Stuff
-            client.println("<p>Click to turn LED on and off.</p>");
-
-            client.println("<a href=\"?LEDOn\"><button type=\"button\">On</button></a>");
-            client.println("<a href=\"?LEDOff\"><button type=\"button\">Off</button></a>");
-
-            if (HTTPRequest.indexOf("LEDOn") > -1)
-            {
-              digitalWrite(lightPin, HIGH);
-            }
-            else if (HTTPRequest.indexOf("LEDOff") > -1)
-            {
-              digitalWrite(lightPin, LOW);
-            }
-
-            client.println("<p>Click to open/close door.</p>");
-
-            client.println("<a href=\"?openDoor\"><button type=\"button\">Open</button></a>");
-            client.println("<a href=\"?closeDoor\"><button type=\"button\">Close</button></a>");
-
-            if (HTTPRequest.indexOf("openDoor") > -1)
-            {
-              doorStatus = 1;
-            }
-            else if(HTTPRequest.indexOf("closeDoor") > -1)
-            {
-              doorStatus = 0;
-            }
-
-            client.println("<h2>GRAPHS</h2>");
-            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>");
-            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>");
-            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15\"></iframe>");
-            client.println("</body>");
-            client.println("</html>");
-
-
-          req_index = 0; // reset request index
-
-          // finished with the HTTP request so clear it
-          HTTPRequest = "";
-          break;
-        }
-        if (c == '\n') {
-          // you're starting a new line
-          currentLineIsBlank = true;
-        } else if (c != '\r') {
-          // you've gotten a character on the current line
-          currentLineIsBlank = false;
-        }
-      }
-    }
-    // give the web browser time to receive the data
-    delay(1);
-    // close the connection:
-    client.stop();
-    Serial.println("client disconnected");
-  }
 }

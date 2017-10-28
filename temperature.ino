@@ -33,7 +33,7 @@ void temperatureCheckTiming()
     insideTemperature = dht.readTemperature();
     Serial.println(insideTemperature);
 
-    uploadToThingSpeak(insideTemperature, temperature, humidity);
+    //uploadToThingSpeak(insideTemperature, temperature, humidity);
   }
   else
   {
