@@ -35,12 +35,14 @@ void runServer(bool updateTemp)
             client.println("<head>");
             client.println("<title>SmartCoop</title>");
 
-            css = SD.open("style.html");
+            client.println("<style type=\"text/css\">");
+            css = SD.open("style.css");
             while (css.available())
             {
               client.write(css.read());
             }
             css.close();
+            client.println("</style>");
 
             client.println("</head>");
             client.println("<body>");
@@ -56,6 +58,7 @@ void runServer(bool updateTemp)
             client.println("<div id=\"navBar\">");
             client.println("<a class=\"active\" href=\"/\">Home</a>");
             client.println("<a href=\"/graphs\">Graphs</a>");
+            client.println("<a href=\"http://192.168.41.100/camera\">Camera</a>");
             client.println("</div>"); // close navBar div
 
 
@@ -127,12 +130,14 @@ void runServer(bool updateTemp)
             client.println("<html>");
             client.println("<head>");
             client.println("<title>SmartCoop Graphs</title>");
-            css = SD.open("style.html");
+            client.println("<style type=\"text/css\">");
+            css = SD.open("style.css");
             while (css.available())
             {
               client.write(css.read());
             }
             css.close();
+            client.println("</style>");
             client.println("</head>");
             client.println("<body>");
             client.println("<div id=\"wrapper\">");
@@ -147,6 +152,7 @@ void runServer(bool updateTemp)
             client.println("<div id=\"navBar\">");
             client.println("<a href=\"/\">Home</a>");
             client.println("<a class=\"active\" href=\"/graphs\">Graphs</a>");
+            client.println("<a href=\"http://192.168.41.100/camera\">Camera</a>");
             client.println("</div>"); // close navBar div
 
             client.println("<div id=\"mainContent\">");
@@ -165,6 +171,51 @@ void runServer(bool updateTemp)
             client.println("</body>");
             client.println("</html>");
           }
+          else if (HTTPRequest.indexOf("GET /camera") > -1)
+          {
+            client.println("<!DOCTYPE html>");
+            client.println("<html>");
+            client.println("<head>");
+            client.println("<title>SmartCoop Camera</title>");
+            client.println("<style type=\"text/css\">");
+            css = SD.open("style.css");
+            while (css.available())
+            {
+              client.write(css.read());
+            }
+            css.close();
+            client.println("</style>");
+            client.println("</head>");
+            client.println("<body>");
+            client.println("<div id=\"wrapper\">");
+            client.println("<div id=\"header\">");
+            client.println("<div id=\"logo\">");
+            client.println("<h1>SmartCoop</h1>");
+            client.println("<h2>An Automated Chicken Coop</h2>");
+            client.println("</div>"); // close logo div
+            client.println("</div>"); // close header div
+
+            // site nav menu
+            client.println("<div id=\"navBar\">");
+            client.println("<a href=\"/\">Home</a>");
+            client.println("<a href=\"/graphs\">Graphs</a>");
+            client.println("<a class=\"active\" href=\"http://192.168.41.100/camera\">Camera</a>");
+            client.println("</div>"); // close navBar div
+
+            client.println("<div id=\"mainContent\">");
+            client.println("<div id=\"subContent\">");
+            client.println("<h2>SmartCoop Live Stream</h2>");
+            client.println("<img src=\"http://192.168.41.100:8080/?action=stream\" />");
+            client.println("</div>"); // close subContent div
+            client.println("</div>"); // close mainContent div
+
+            client.println("<div id=\"footer\">SmartCoop: An Automated Chicken Coop - Jason Keane</div>");
+
+            client.println("</div>"); // close wrapper div
+            client.println("</body>");
+            client.println("</html>");
+          }
+
           req_index = 0; // reset request index
 
           // finished with the HTTP request so clear it
