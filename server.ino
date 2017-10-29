@@ -35,12 +35,14 @@ void runServer(bool updateTemp)
             client.println("<head>");
             client.println("<title>SmartCoop</title>");
 
-            css = SD.open("style.html");
+            client.println("<style type=\"text/css\">");
+            css = SD.open("style.css");
             while (css.available())
             {
               client.write(css.read());
             }
             css.close();
+            client.println("</style>");
 
             client.println("</head>");
             client.println("<body>");
@@ -128,12 +130,14 @@ void runServer(bool updateTemp)
             client.println("<html>");
             client.println("<head>");
             client.println("<title>SmartCoop Graphs</title>");
-            css = SD.open("style.html");
+            client.println("<style type=\"text/css\">");
+            css = SD.open("style.css");
             while (css.available())
             {
               client.write(css.read());
             }
             css.close();
+            client.println("</style>");
             client.println("</head>");
             client.println("<body>");
             client.println("<div id=\"wrapper\">");
