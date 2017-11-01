@@ -41,8 +41,12 @@ void setup()
 
   // start the Ethernet connection:
   byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-  IPAddress ip(192,168,41,100);
-  Ethernet.begin(mac, ip);
+  IPAddress ip(192,168,41,111);
+  IPAddress dnsServer(8,8,8,8);
+  IPAddress gateway(192,168,41,1);
+  IPAddress subnet(255,255,255,0);
+  //Ethernet.begin(mac, ip, dnsServer, gateway, subnet);
+  Ethernet.begin(mac);
 
   // give the Ethernet a second
   delay(1000);
