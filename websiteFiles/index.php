@@ -49,7 +49,7 @@
             <?php
               while($row = $result->fetch_assoc())
               {
-                echo "The outside temperature is " . $row['temperature'] . "<br />The inside temperature is " . $row['temperature'] . "<br />The humidity is " . $row['humidity'] . "<br />";
+                echo "The outside temperature is " . $row['temperature'] . "<br />The inside temperature is " . $row['insideTemperature'] . "<br />The humidity is " . $row['humidity'] . "<br />";
               }
             ?>
 
