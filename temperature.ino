@@ -11,7 +11,7 @@ void temperatureCheckTiming()
 {
   bool updateWebTemp;
   // Check temperature ever 5 minutes
-  const unsigned long sampleTime = (60*5) * 1000UL;
+  const unsigned long sampleTime = (20) * 1000UL;
   static unsigned long lastSampleTime = 0 - sampleTime;
 
   unsigned long now = millis();
@@ -33,7 +33,10 @@ void temperatureCheckTiming()
     Serial.println(insideTemperature);
 
     // commented out to save requests, this will probably need to be run less often than the temperature check
-    uploadToThingSpeak(insideTemperature, temperature, humidity);
+    //uploadToThingSpeak(insideTemperature, temperature, humidity);
+
+    Serial.println("MYSQL");
+    mySQLAdd();
   }
   else
   {

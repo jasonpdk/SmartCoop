@@ -1,3 +1,4 @@
+//This function badly needs to be tidied up!
 void runServer(bool updateTemp)
 {
   /* SERVER */
@@ -54,11 +55,12 @@ void runServer(bool updateTemp)
             client.println("</div>"); // close logo div
             client.println("</div>"); // close header div
 
+
             // site nav menu
             client.println("<div id=\"navBar\">");
             client.println("<a class=\"active\" href=\"/\">Home</a>");
             client.println("<a href=\"/graphs\">Graphs</a>");
-            client.println("<a href=\"http://192.168.41.100/camera\">Camera</a>");
+            client.println("<a href=\"/camera\">Camera</a>");
             client.println("</div>"); // close navBar div
 
 
@@ -152,7 +154,7 @@ void runServer(bool updateTemp)
             client.println("<div id=\"navBar\">");
             client.println("<a href=\"/\">Home</a>");
             client.println("<a class=\"active\" href=\"/graphs\">Graphs</a>");
-            client.println("<a href=\"http://192.168.41.100/camera\">Camera</a>");
+            client.println("<a href=\"/camera\">Camera</a>");
             client.println("</div>"); // close navBar div
 
             client.println("<div id=\"mainContent\">");
@@ -199,13 +201,33 @@ void runServer(bool updateTemp)
             client.println("<div id=\"navBar\">");
             client.println("<a href=\"/\">Home</a>");
             client.println("<a href=\"/graphs\">Graphs</a>");
-            client.println("<a class=\"active\" href=\"http://192.168.41.100/camera\">Camera</a>");
+            client.println("<a class=\"active\" href=\"/camera\">Camera</a>");
             client.println("</div>"); // close navBar div
 
             client.println("<div id=\"mainContent\">");
             client.println("<div id=\"subContent\">");
             client.println("<h2>SmartCoop Live Stream</h2>");
-            client.println("<img src=\"http://192.168.41.100:8080/?action=stream\" />");
+            client.print("<img src=\"http://");
+            client.print("192.168.41.103");
+            client.print(":8080/?action=stream\" />");
+            client.println();
+
+            // LIGHT CONTROL
+            client.println("<p>Click to turn LED on and off.<br />");
+
+            client.println("<a href=\"/camera/?LEDOn\"><button type=\"button\">On</button></a>");
+            client.println("<a href=\"/camera/?LEDOff\"><button type=\"button\">Off</button></a>");
+            client.println("</p>");
+
+            if (HTTPRequest.indexOf("LEDOn") > -1)
+            {
+              digitalWrite(lightPin, HIGH);
+            }
+            else if (HTTPRequest.indexOf("LEDOff") > -1)
+            {
+              digitalWrite(lightPin, LOW);
+            }
+
             client.println("</div>"); // close subContent div
             client.println("</div>"); // close mainContent div
 
