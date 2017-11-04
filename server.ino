@@ -1,4 +1,3 @@
-//This function badly needs to be tidied up!
 void runServer(bool updateTemp)
 {
   /* SERVER */
