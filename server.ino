@@ -7,12 +7,15 @@ void runServer(bool updateTemp)
 
   // listen for incoming clients
   EthernetClient client = server.available();
-  if (client) {
+  if (client)
+  {
     Serial.println("new client");
     // an http request ends with a blank line
     boolean currentLineIsBlank = true;
-    while (client.connected()) {
-      if (client.available()) {
+    while (client.connected())
+    {
+      if (client.available())
+      {
         char c = client.read();
 
         HTTPRequest += c;
@@ -29,213 +32,23 @@ void runServer(bool updateTemp)
           client.println("Connection: close");  // the connection will be closed after completion of the response
           client.println();
 
-          if (HTTPRequest.indexOf("GET / ") > -1 || HTTPRequest.indexOf("GET /index") > -1 || HTTPRequest.indexOf("GET /?") > -1)
+          if (HTTPRequest.indexOf("LEDOn") > -1)
           {
-            client.println("<!DOCTYPE html>");
-            client.println("<html>");
-            client.println("<head>");
-            client.println("<title>SmartCoop</title>");
-
-            client.println("<style type=\"text/css\">");
-            css = SD.open("style.css");
-            while (css.available())
-            {
-              client.write(css.read());
-            }
-            css.close();
-            client.println("</style>");
-
-            client.println("</head>");
-            client.println("<body>");
-            client.println("<div id=\"wrapper\">");
-            client.println("<div id=\"header\">");
-            client.println("<div id=\"logo\">");
-            client.println("<h1>SmartCoop</h1>");
-            client.println("<h2>An Automated Chicken Coop</h2>");
-            client.println("</div>"); // close logo div
-            client.println("</div>"); // close header div
-
-
-            // site nav menu
-            client.println("<div id=\"navBar\">");
-            client.println("<a class=\"active\" href=\"/\">Home</a>");
-            client.println("<a href=\"/graphs\">Graphs</a>");
-            client.println("<a href=\"/camera\">Camera</a>");
-            client.println("</div>"); // close navBar div
-
-
-            client.println("<div id=\"mainContent\">");
-            client.println("<div id=\"subContent\">");
-            client.println("<h2>Sensor Readings</h2>");
-            client.print("<p class=\"readings\">The outside temperature is ");
-            client.print(temperature);
-            client.print(" degrees Celsius<br />");
-            client.print("The inside temperature is ");
-            client.print(insideTemperature);
-            client.print(" degrees celsius<br />");
-            client.print("The humidity is ");
-            client.print(humidity);
-            client.println("%");
-            client.println("<br /><a href=\"/graphs\">Click here to see the historical values on a graph.</a></p>");
-
-            client.println("<h2>Sunrise and Sunset Times</h2>");
-            client.println("<p>The sunrise time today is: " + sunrise + " UTC");
-            client.println("<br />");
-            client.println("The sunset time today is: " + sunset + " UTC</p>");
-
-            client.println("<h2>Control</h2>");
-            // Light Stuff
-            client.println("<p>Click to turn LED on and off.<br />");
-
-            client.println("<a href=\"?LEDOn\"><button type=\"button\">On</button></a>");
-            client.println("<a href=\"?LEDOff\"><button type=\"button\">Off</button></a>");
-            client.println("</p>");
-
-            if (HTTPRequest.indexOf("LEDOn") > -1)
-            {
-              digitalWrite(lightPin, HIGH);
-            }
-            else if (HTTPRequest.indexOf("LEDOff") > -1)
-            {
-              digitalWrite(lightPin, LOW);
-            }
-
-            client.println("<p>Click to open/close door.<br />");
-
-            client.println("<a href=\"?openDoor\"><button type=\"button\">Open</button></a>");
-            client.println("<a href=\"?closeDoor\"><button type=\"button\">Close</button></a>");
-            client.println("</p>");
-
-            if (HTTPRequest.indexOf("openDoor") > -1)
-            {
-              doorStatus = 1;
-            }
-            else if(HTTPRequest.indexOf("closeDoor") > -1)
-            {
-              doorStatus = 0;
-            }
-
-            client.println("</div>"); // close subContent div
-            client.println("</div>"); // close mainContent div
-
-            client.println("<div id=\"footer\">");
-            client.println("<p>SmartCoop: An Automated Chicken Coop - Jason Keane<p>");
-            client.println("</div>"); // close footer div
-            client.println("</div>"); // close wrapper div
-            client.println("</body>");
-            client.println("</html>");
-
+            digitalWrite(lightPin, HIGH);
           }
-          else if(HTTPRequest.indexOf("GET /graphs") > -1)
+          else if (HTTPRequest.indexOf("LEDOff") > -1)
           {
-            client.println("<!DOCTYPE html>");
-            client.println("<html>");
-            client.println("<head>");
-            client.println("<title>SmartCoop Graphs</title>");
-            client.println("<style type=\"text/css\">");
-            css = SD.open("style.css");
-            while (css.available())
-            {
-              client.write(css.read());
-            }
-            css.close();
-            client.println("</style>");
-            client.println("</head>");
-            client.println("<body>");
-            client.println("<div id=\"wrapper\">");
-            client.println("<div id=\"header\">");
-            client.println("<div id=\"logo\">");
-            client.println("<h1>SmartCoop</h1>");
-            client.println("<h2>An Automated Chicken Coop</h2>");
-            client.println("</div>"); // close logo div
-            client.println("</div>"); // close header div
-
-            // site nav menu
-            client.println("<div id=\"navBar\">");
-            client.println("<a href=\"/\">Home</a>");
-            client.println("<a class=\"active\" href=\"/graphs\">Graphs</a>");
-            client.println("<a href=\"/camera\">Camera</a>");
-            client.println("</div>"); // close navBar div
-
-            client.println("<div id=\"mainContent\">");
-            client.println("<div id=\"subContent\">");
-            client.println("<h2>Graphs</h2>");
-            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&api_key=4FTN1ZL8P525S956&results=60&type=line&update=15\"></iframe>");
-            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&api_key=4FTN1ZL8P525S956&results=60&type=line&update=15\"></iframe>");
-            client.println("<iframe width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"https://thingspeak.com/channels/351486/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&api_key=4FTN1ZL8P525S956&results=60&type=line&update=15\"></iframe>");
-
-            client.println("</div>"); // close subContent div
-            client.println("</div>"); // close mainContent div
-
-            client.println("<div id=\"footer\">SmartCoop: An Automated Chicken Coop - Jason Keane</div>");
-
-            client.println("</div>"); // close wrapper div
-            client.println("</body>");
-            client.println("</html>");
+            digitalWrite(lightPin, LOW);
           }
-          else if (HTTPRequest.indexOf("GET /camera") > -1)
+
+
+          if (HTTPRequest.indexOf("openDoor") > -1)
           {
-            client.println("<!DOCTYPE html>");
-            client.println("<html>");
-            client.println("<head>");
-            client.println("<title>SmartCoop Camera</title>");
-            client.println("<style type=\"text/css\">");
-            css = SD.open("style.css");
-            while (css.available())
-            {
-              client.write(css.read());
-            }
-            css.close();
-            client.println("</style>");
-            client.println("</head>");
-            client.println("<body>");
-            client.println("<div id=\"wrapper\">");
-            client.println("<div id=\"header\">");
-            client.println("<div id=\"logo\">");
-            client.println("<h1>SmartCoop</h1>");
-            client.println("<h2>An Automated Chicken Coop</h2>");
-            client.println("</div>"); // close logo div
-            client.println("</div>"); // close header div
-
-            // site nav menu
-            client.println("<div id=\"navBar\">");
-            client.println("<a href=\"/\">Home</a>");
-            client.println("<a href=\"/graphs\">Graphs</a>");
-            client.println("<a class=\"active\" href=\"/camera\">Camera</a>");
-            client.println("</div>"); // close navBar div
-
-            client.println("<div id=\"mainContent\">");
-            client.println("<div id=\"subContent\">");
-            client.println("<h2>SmartCoop Live Stream</h2>");
-            client.print("<img src=\"http://");
-            client.print("192.168.41.103");
-            client.print(":8080/?action=stream\" />");
-            client.println();
-
-            // LIGHT CONTROL
-            client.println("<p>Click to turn LED on and off.<br />");
-
-            client.println("<a href=\"/camera/?LEDOn\"><button type=\"button\">On</button></a>");
-            client.println("<a href=\"/camera/?LEDOff\"><button type=\"button\">Off</button></a>");
-            client.println("</p>");
-
-            if (HTTPRequest.indexOf("LEDOn") > -1)
-            {
-              digitalWrite(lightPin, HIGH);
-            }
-            else if (HTTPRequest.indexOf("LEDOff") > -1)
-            {
-              digitalWrite(lightPin, LOW);
-            }
-
-            client.println("</div>"); // close subContent div
-            client.println("</div>"); // close mainContent div
-
-            client.println("<div id=\"footer\">SmartCoop: An Automated Chicken Coop - Jason Keane</div>");
-
-            client.println("</div>"); // close wrapper div
-            client.println("</body>");
-            client.println("</html>");
+            doorStatus = 1;
+          }
+          else if(HTTPRequest.indexOf("closeDoor") > -1)
+          {
+            doorStatus = 0;
           }
 
           req_index = 0; // reset request index
@@ -244,10 +57,13 @@ void runServer(bool updateTemp)
           HTTPRequest = "";
           break;
         }
-        if (c == '\n') {
+        if (c == '\n')
+        {
           // you're starting a new line
           currentLineIsBlank = true;
-        } else if (c != '\r') {
+        }
+        else if (c != '\r')
+        {
           // you've gotten a character on the current line
           currentLineIsBlank = false;
         }
