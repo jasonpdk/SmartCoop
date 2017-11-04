@@ -6,11 +6,17 @@ void mySQLAdd()
   {
     if (client.connect(mySQLServer, 80))
     {
-      client.print("GET /smartcoop/testadd.php?temp=");
-      Serial.print("GET /smartcoop/testadd.php?temp=");
+      client.print("GET /smartcoop/testadd.php?outsideTemp=");
+      Serial.print("GET /smartcoop/testadd.php?outsideTemp=");
 
       client.print(temperature);
       Serial.print(temperature);
+
+      client.print("&insideTemp=");
+      Serial.print("&insideTemp=");
+
+      client.print(insideTemperature);
+      Serial.print(insideTemperature);
 
       client.print("&hum=");
       Serial.print("&hum=");
@@ -23,13 +29,10 @@ void mySQLAdd()
 
 
       client.println("Host: 192.168.41.110");
-      Serial.println("Host: 192.168.41.110");
 
       client.println("Connection: close");
-      Serial.println("Connection: close");
 
       client.println();
-      Serial.println();
 
     }
 
