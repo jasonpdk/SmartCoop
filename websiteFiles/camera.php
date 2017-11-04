@@ -24,7 +24,13 @@
 
       <div id="mainContent">
         <div id="subContent">
+          <h2>SmartCoop Live Stream</h2>
           <img src="http://192.168.41.103:8080/?action=stream" />
+
+          <p>Click to turn LED on and off.<br />
+            <button type="button" onclick="ledOn();">On</button>
+            <button type="button" onclick="ledOff();">Off</button>
+          </p>
         </div>
       </div>
 
