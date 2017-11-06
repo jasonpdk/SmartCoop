@@ -1,20 +1,9 @@
 <?php
-  $servername = "localhost";
-  $username = "root";
-  $password = "Quartsr2d2";
-  $dbname = "SmartCoop";
-
-  $conn = new mysqli($servername, $username, $password, $dbname);
-
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
+  include 'connect.php';
 
   $sql = "SELECT * FROM readings ORDER BY id DESC LIMIT 1";
 
   $result = $conn->query($sql);
-
-
 ?>
 
 <html>
@@ -51,6 +40,7 @@
               {
                 echo "The outside temperature is " . $row['temperature'] . "<br />The inside temperature is " . $row['insideTemperature'] . "<br />The humidity is " . $row['humidity'] . "<br />";
               }
+              $conn->close();
             ?>
 
             <a href="graphs">Click here to see the historical values on a graph.</a>
