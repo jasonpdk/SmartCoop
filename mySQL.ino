@@ -1,6 +1,6 @@
 void mySQLAdd()
 {
-  char mySQLServer[] = "192.168.41.110";
+  char mySQLServer[] = "192.168.41.114";
 
   if (!client.connected())
   {

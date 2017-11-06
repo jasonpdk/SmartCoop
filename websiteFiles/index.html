@@ -1,22 +1,3 @@
-<?php
-  $servername = "localhost";
-  $username = "root";
-  $password = "Quartsr2d2";
-  $dbname = "SmartCoop";
-
-  $conn = new mysqli($servername, $username, $password, $dbname);
-
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-
-  $sql = "SELECT * FROM readings ORDER BY id DESC LIMIT 1";
-
-  $result = $conn->query($sql);
-
-
-?>
-
 <html>
 
   <head>
@@ -36,9 +17,9 @@
 
 
       <div id="navBar">
-        <a class="active" href="index.php">Home</a>
-        <a href="graphs.php">Graphs</a>
-        <a href="camera.php">Camera</a>
+        <a class="active" href="index">Home</a>
+        <a href="graphs">Graphs</a>
+        <a href="camera">Camera</a>
       </div>
 
 
@@ -46,13 +27,9 @@
         <div id="subContent">
           <h2>Sensor Readings</h2>
           <p class="readings">
-            <?php
-              while($row = $result->fetch_assoc())
-              {
-                echo "The outside temperature is " . $row['temperature'] . "<br />The inside temperature is " . $row['insideTemperature'] . "<br />The humidity is " . $row['humidity'] . "<br />";
-              }
-            ?>
-
+            The outside temperature is <br />
+            The inside temperature is <br />
+            The humidity is <br />
             <a href="graphs">Click here to see the historical values on a graph.</a>
           </p>
 
