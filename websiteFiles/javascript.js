@@ -1,4 +1,4 @@
-var galileoIP = "192.168.41.102";
+var galileoIP = "192.168.41.112";
 
 function ledOn()
 {
