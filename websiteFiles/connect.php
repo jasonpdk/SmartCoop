@@ -1,7 +1,7 @@
 <?php
   $servername = "localhost";
-  $username = "root";
-  $password = "Quartsr2d2";
+  $username = "SmartCoopUser";
+  $password = "password";
   $dbname = "SmartCoop";
 
   $conn = new mysqli($servername, $username, $password, $dbname);

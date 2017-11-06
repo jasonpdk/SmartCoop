@@ -29,9 +29,6 @@ float insideTemperature;
 // DHT11 Object
 DHT dht(DHTIN,DHTOUT, DHTTYPE);
 
-// CSS File
-File css;
-
 void setup()
 {
  //Open serial and wait
