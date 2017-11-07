@@ -6,8 +6,8 @@ void mySQLAdd()
   {
     if (client.connect(mySQLServer, 80))
     {
-      client.print("GET /smartcoop/testadd.php?outsideTemp=");
-      Serial.print("GET /smartcoop/testadd.php?outsideTemp=");
+      client.print("GET /smartcoop/add.php?outsideTemp=");
+      Serial.print("GET /smartcoop/add.php?outsideTemp=");
 
       client.print(temperature);
       Serial.print(temperature);

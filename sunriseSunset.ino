@@ -81,6 +81,11 @@ void getSunrise()
   }
   sunsetMinutes = stringSetMinutes.toInt();
 
+  Serial.print("Sunset as int: ");
+  Serial.print(sunsetHours);
+  Serial.print(sunsetMinutes);
+  Serial.println();
+
   // if the server's disconnected, stop the client:
   if (!client.connected()) {
     Serial.println();
