@@ -1,9 +1,11 @@
 <?php
   include 'connect.php';
 
-  $sql = "SELECT * FROM readings ORDER BY id DESC LIMIT 1";
+  $sql = "SELECT * FROM readings ORDER BY id DESC LIMIT 1;";
+  $sql1 = "SELECT * FROM `times` ORDER BY `id` DESC LIMIT 1";
 
   $result = $conn->query($sql);
+  $result1 = $conn->query($sql1);
 ?>
 
 <html>
@@ -39,8 +41,9 @@
               while($row = $result->fetch_assoc())
               {
                 echo "The outside temperature is " . $row['temperature'] . "<br />The inside temperature is " . $row['insideTemperature'] . "<br />The humidity is " . $row['humidity'] . "<br />";
+
               }
-              $conn->close();
+              //$conn->close();
             ?>
 
             <a href="graphs">Click here to see the historical values on a graph.</a>
@@ -48,9 +51,13 @@
 
           <h2>Sunrise and Sunset Times</h2>
           <p>
-            The sunrise time today is:
-            <!-- INSERT PHP --><br /> The sunset time today is:
-            <!-- INSERT PHP --><br />
+            <?php
+             while($row1 = $result1->fetch_assoc())
+              {
+                echo "The sunrise time today is: " . $row1['sunrise'] . "<br />The sunset time today is " . $row1['sunset'] . "<br />";
+              }
+              $conn->close();
+            ?>
           </p>
 
           <h2>Control</h2>
