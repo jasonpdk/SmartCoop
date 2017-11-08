@@ -54,7 +54,7 @@
             <?php
              while($row1 = $result1->fetch_assoc())
               {
-                echo "The sunrise time today is: " . $row1['sunrise'] . "<br />The sunset time today is " . $row1['sunset'] . "<br />";
+                echo "The sunrise time today is: " . $row1['sunrise'] . " AM"  . "<br />The sunset time today is " . $row1['sunset'] . " PM" . "<br />";
               }
               $conn->close();
             ?>

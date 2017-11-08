@@ -1,4 +1,4 @@
-char mySQLServer[] = "192.168.41.110";
+char mySQLServer[] = "192.168.41.111";
 
 void mySQLAdd()
 {
@@ -15,6 +15,7 @@ void mySQLAdd()
       client.print(temperature);
 
       client.println();
+
       client.println("Host: 192.168.41.110");
       client.println("Connection: close");
       client.println();
@@ -24,7 +25,7 @@ void mySQLAdd()
   }
 }
 
-void mySQLAddTimes()
+void mySQLAddTimes() // this needs testing
 {
   if (!client.connected())
   {

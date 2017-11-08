@@ -78,4 +78,5 @@ void loop()
   connectForGET(); // this will be run once every day
   checkDoor();
   temperatureCheckTiming();
+  getRealTime();
 }
