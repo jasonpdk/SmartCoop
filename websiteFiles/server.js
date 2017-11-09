@@ -1,48 +1,62 @@
-var http = require('http');
-var fs = require('fs');
+// load the things we need
+var express = require('express');
+var mysql = require('mysql');
 
-// 404 response
-function send404Response(response)
-{
-  response.writeHead(404, {"Content-Type": "text/plain"});
-  response.write("ERROR 404: Page not found!");
-  response.end();
-}
+var app = express();
+app.use(express.static(__dirname + '/public'));
 
-// Handle user request
-function onRequest(request, response)
-{
-  if (request.method == 'GET' && request.url == '/') // home page
-  {
-    response.writeHead(200, {"Content-Type": "text/html"});
-    fs.createReadStream("./index.html").pipe(response);
-  }
-  else if (request.method == 'GET' && request.url == '/graphs')
-  {
-    response.writeHead(200, {"Content-Type": "text/html"});
-    fs.createReadStream("./graphs.html").pipe(response);
-  }
-  else if (request.method == 'GET' && request.url == '/camera')
-  {
-    response.writeHead(200, {"Content-Type": "text/html"});
-    fs.createReadStream("./camera.html").pipe(response);
-  }
-  else if (request.method == 'GET' && request.url == '/style.css')
-  {
-    response.writeHead(200, {"Content-Type": "text/css"});
-    fs.createReadStream("./style.css").pipe(response);
-  }
-  else if (request.method == 'GET' && request.url == '/javascript.js')
-  {
-    response.writeHead(200, {"Content-Type": "text/javascript"});
-    fs.createReadStream("./javascript.js").pipe(response);
-  }
-  else
-  {
-    send404Response(response);
-  }
+var con = mysql.createConnection({
+	host: "localhost",
+	user: "root",
+	password: "***REMOVED***",
+	database: "SmartCoop"
+});
 
-}
 
-http.createServer(onRequest).listen(8888);
-console.log("Server is now running...");
+con.connect(function(err) {
+	if (err) throw err;
+	console.log("Connected to MySQL");
+});
+
+var outsideTemp, insideTemp, humidity;
+var sql0 = "SELECT * FROM readings ORDER BY id DESC LIMIT 1";
+con.query(sql0, function (err, result) {
+	if (err) throw err;
+	outsideTemp = result[0].temperature;
+	insideTemp = result[0].insideTemperature;
+	humidity = result[0].humidity;
+});
+
+var sunrise, sunset;
+var sql1 = "SELECT * FROM times ORDER BY id DESC LIMIT 1";
+con.query(sql1, function (err, result) {
+	sunrise = result[0].sunrise;
+	sunset = result[0].sunset;
+});
+
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+
+// use res.render to load up an ejs view file
+
+// index page
+app.get('/', function(req, res) {
+	res.render('pages/index', {
+		insideTemp: insideTemp,
+		outsideTemp: outsideTemp,
+		humidity: humidity,
+		sunrise: sunrise,
+		sunset: sunset
+	});
+});
+
+app.get ('/graphs', function(req, res) {
+	res.render('pages/graphs');
+});
+
+app.get ('/camera', function(req, res) {
+	res.render('pages/camera');
+});
+
+app.listen(8080);
+console.log('The server is on port 8080');
