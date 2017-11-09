@@ -27,12 +27,12 @@ void getSunrise()
       if (currentLine.startsWith("{\"results\":"))
       {
         int i;
-        for (i = 23; i < 33; i++)
+        for (i = 23; i < 30; i++)
         {
           sunrise += currentLine[i];
         }
 
-        for (i = 45; i < 55; i++)
+        for (i = 166; i < 173; i++)
         {
           sunset += currentLine[i];
         }
@@ -46,6 +46,8 @@ void getSunrise()
         currentLine = "";
       }
     }
+
+    mySQLAddTimes();
   }
 
 
@@ -82,7 +84,8 @@ void getSunrise()
   sunsetMinutes = stringSetMinutes.toInt();
 
   // if the server's disconnected, stop the client:
-  if (!client.connected()) {
+  if (!client.connected())
+  {
     Serial.println();
     Serial.println("disconnecting.");
     client.stop();
@@ -93,7 +96,10 @@ void getSunrise()
 }
 
 
-/* Connects to the server api.sunrise-sunset.org */
+/*
+* Connects to the server api.sunrise-sunset.org
+* Will need to be changed when the timing is set up. The getTimes and Connected variables will not be needed.
+*/
 void connectForGET()
 {
   // will need to run this block every day using RTC on Galileo
@@ -104,7 +110,8 @@ void connectForGET()
       /* CONNECT */
       char serverToScrape[] = "api.sunrise-sunset.org";
       // if you get a connection, report back via serial:
-      if (client.connect(serverToScrape, 80)) {
+      if (client.connect(serverToScrape, 80))
+      {
         Serial.println("connected");
         // Make a HTTP request:
         client.println("GET /json?lat=53.2706680&lng=-9.0567910&date=today HTTP/1.1");
@@ -112,7 +119,9 @@ void connectForGET()
         client.println("Host: api.sunrise-sunset.org");
         client.println("Connection: close");
         client.println();
-      } else {
+      }
+      else
+      {
         // if you didn't get a connection to the server:
         Serial.println("connection failed");
       }
@@ -124,5 +133,58 @@ void connectForGET()
       getSunrise();
     }
   }
+
+}
+
+int currentHours, currentMinutes;
+// saves the current time to a text file in linux, then reads the file.
+void getRealTime()
+{
+  char currentTime[100] = {};
+  const unsigned long sampleTime = (20) * 1000UL;
+  static unsigned long lastSampleTime = 0 - sampleTime;
+
+  unsigned long now = millis();
+
+  if (now - lastSampleTime >= sampleTime)
+  {
+    lastSampleTime += sampleTime;
+    Serial.println("TIME");
+    //system("date +\"%T\" > /home/root/time.txt");
+    system("date +\"%T\" > \"7:49:22\"");
+    FILE *fp;
+    int theFileCharacter = 0;
+
+    fp = fopen("/home/root/time.txt", "r");
+
+    theFileCharacter = fgetc(fp);
+
+    int i = 0;
+    while(theFileCharacter != EOF)
+    {
+      currentTime[i] = theFileCharacter;
+      Serial.println(theFileCharacter);
+      theFileCharacter = fgetc(fp);
+      i++;
+    }
+
+    Serial.println(currentTime);
+    fclose(fp);
+  }
+
+  // convert current time to ints NOT WORKING YET
+  String stringCurHours = "", stringCurMinutes = "";
+  int i;
+  for (i = 0; i < sunset.indexOf(':'); i++)
+  {
+    stringCurHours += currentTime[i];
+  }
+  currentHours = stringCurHours.toInt();
+
+  for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++)
+  {
+    stringCurMinutes += currentTime[i];
+  }
+  currentMinutes = stringCurMinutes.toInt();
 
 }
