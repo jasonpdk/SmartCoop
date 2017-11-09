@@ -29,9 +29,6 @@ float insideTemperature;
 // DHT11 Object
 DHT dht(DHTIN,DHTOUT, DHTTYPE);
 
-// CSS File
-File css;
-
 void setup()
 {
  //Open serial and wait
@@ -81,4 +78,5 @@ void loop()
   connectForGET(); // this will be run once every day
   checkDoor();
   temperatureCheckTiming();
+  getRealTime();
 }
