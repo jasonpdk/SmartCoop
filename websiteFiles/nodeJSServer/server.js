@@ -7,8 +7,8 @@ app.use(express.static(__dirname + '/public'));
 
 var con = mysql.createConnection({
 	host: "localhost",
-	user: "root",
-	password: "***REMOVED***",
+	user: "SmartCoopUser",
+	password: "password",
 	database: "SmartCoop"
 });
 
@@ -50,10 +50,12 @@ app.get('/', function(req, res) {
 	});
 });
 
+// graphs page
 app.get ('/graphs', function(req, res) {
 	res.render('pages/graphs');
 });
 
+// camera page
 app.get ('/camera', function(req, res) {
 	res.render('pages/camera');
 });
