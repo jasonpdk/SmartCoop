@@ -1,4 +1,4 @@
-char mySQLServer[] = "192.168.41.111";
+char mySQLServer[] = "192.168.41.110";
 
 void mySQLAdd()
 {
