@@ -35,8 +35,7 @@ void getSunrise()
         Serial.println("The sunrise time is: " + sunrise);
         Serial.println("The sunset time is: " + sunset);
         client.stop();
-      }
-      else {
+      } else {
         currentLine = "";
       }
     }
@@ -104,15 +103,13 @@ void connectForGET()
         client.println("Host: api.sunrise-sunset.org");
         client.println("Connection: close");
         client.println();
-      }
-      else {
+      } else {
         // if you didn't get a connection to the server:
         Serial.println("connection failed");
       }
 
       Connected = true;
-    }
-    else {
+    } else {
       getSunrise();
     }
   }

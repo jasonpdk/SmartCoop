@@ -29,15 +29,13 @@ void runServer(bool updateTemp)
 
           if (HTTPRequest.indexOf("LEDOn") > -1) {
             digitalWrite(lightPin, HIGH);
-          }
-          else if (HTTPRequest.indexOf("LEDOff") > -1) {
+          } else if (HTTPRequest.indexOf("LEDOff") > -1) {
             digitalWrite(lightPin, LOW);
           }
 
           if (HTTPRequest.indexOf("openDoor") > -1) {
             doorStatus = 1;
-          }
-          else if(HTTPRequest.indexOf("closeDoor") > -1) {
+          } else if(HTTPRequest.indexOf("closeDoor") > -1) {
             doorStatus = 0;
           }
 
@@ -50,8 +48,7 @@ void runServer(bool updateTemp)
         if (c == '\n') {
           // you're starting a new line
           currentLineIsBlank = true;
-        }
-        else if (c != '\r') {
+        } else if (c != '\r') {
           // you've gotten a character on the current line
           currentLineIsBlank = false;
         }
