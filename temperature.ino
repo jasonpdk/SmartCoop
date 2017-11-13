@@ -16,8 +16,7 @@ void temperatureCheckTiming()
 
   unsigned long now = millis();
 
-  if (now - lastSampleTime >= sampleTime)
-  {
+  if (now - lastSampleTime >= sampleTime) {
     lastSampleTime += sampleTime;
     temperature = temperatureStuff();
 
@@ -38,8 +37,7 @@ void temperatureCheckTiming()
     Serial.println("MYSQL");
     mySQLAdd();
   }
-  else
-  {
+  else {
     updateWebTemp = false;
   }
 
@@ -52,17 +50,14 @@ float temperatureStuff()
   temperature = (((reading) * (5000 / 1024.0)) - 500) / 10;
 
   // turn on light if temperature goes below x
-  if (temperature < 20.0)
-  {
+  if (temperature < 20.0) {
     digitalWrite(heatLamp, HIGH);
     digitalWrite(fan, LOW);
   }
-  else if (temperature > 20.0)
-  {
+  else if (temperature > 20.0) {
     digitalWrite(fan, HIGH);
     digitalWrite(heatLamp, LOW);
   }
-
 
   return temperature;
 }

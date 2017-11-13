@@ -16,24 +16,19 @@ void getSunrise()
   // if there are incoming bytes available
   // from the server, read them and print them:
 
-  if (client.available())
-  {
+  if (client.available()) {
     char c = client.read();
     currentLine += c;
 
 
-    if (c == '\n')
-    {
-      if (currentLine.startsWith("{\"results\":"))
-      {
+    if (c == '\n') {
+      if (currentLine.startsWith("{\"results\":")) {
         int i;
-        for (i = 23; i < 30; i++)
-        {
+        for (i = 23; i < 30; i++) {
           sunrise += currentLine[i];
         }
 
-        for (i = 166; i < 173; i++)
-        {
+        for (i = 166; i < 173; i++) {
           sunset += currentLine[i];
         }
 
@@ -41,8 +36,7 @@ void getSunrise()
         Serial.println("The sunset time is: " + sunset);
         client.stop();
       }
-      else
-      {
+      else {
         currentLine = "";
       }
     }
@@ -56,14 +50,12 @@ void getSunrise()
   String stringRiseHours = "", stringRiseMinutes = "";
 
   int i;
-  for (i = 0; i < sunrise.indexOf(':'); i++)
-  {
+  for (i = 0; i < sunrise.indexOf(':'); i++) {
     stringRiseHours += sunrise[i];
   }
   sunriseHours = stringRiseHours.toInt();
 
-  for (i = sunrise.indexOf(':') + 1; i < sunrise.lastIndexOf(':'); i++)
-  {
+  for (i = sunrise.indexOf(':') + 1; i < sunrise.lastIndexOf(':'); i++) {
     stringRiseMinutes += sunrise[i];
   }
   sunriseMinutes = stringRiseMinutes.toInt();
@@ -71,27 +63,23 @@ void getSunrise()
   // sunset (NEEDS TESTING!!)
   String stringSetHours = "", stringSetMinutes = "";
 
-  for (i = 0; i < sunset.indexOf(':'); i++)
-  {
+  for (i = 0; i < sunset.indexOf(':'); i++) {
     stringSetHours += sunset[i];
   }
   sunsetHours = stringSetHours.toInt();
 
-  for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++)
-  {
+  for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++) {
     stringSetMinutes += sunset[i];
   }
   sunsetMinutes = stringSetMinutes.toInt();
 
   // if the server's disconnected, stop the client:
-  if (!client.connected())
-  {
+  if (!client.connected()) {
     Serial.println();
     Serial.println("disconnecting.");
     client.stop();
     Connected = false;
     getTimes = false;
-
   }
 }
 
@@ -103,15 +91,12 @@ void getSunrise()
 void connectForGET()
 {
   // will need to run this block every day using RTC on Galileo
-  if (getTimes)
-  {
-    if (Connected == false)
-    {
+  if (getTimes) {
+    if (Connected == false) {
       /* CONNECT */
       char serverToScrape[] = "api.sunrise-sunset.org";
       // if you get a connection, report back via serial:
-      if (client.connect(serverToScrape, 80))
-      {
+      if (client.connect(serverToScrape, 80)) {
         Serial.println("connected");
         // Make a HTTP request:
         client.println("GET /json?lat=53.2706680&lng=-9.0567910&date=today HTTP/1.1");
@@ -120,16 +105,14 @@ void connectForGET()
         client.println("Connection: close");
         client.println();
       }
-      else
-      {
+      else {
         // if you didn't get a connection to the server:
         Serial.println("connection failed");
       }
 
       Connected = true;
     }
-    else
-    {
+    else {
       getSunrise();
     }
   }
@@ -146,8 +129,7 @@ void getRealTime()
 
   unsigned long now = millis();
 
-  if (now - lastSampleTime >= sampleTime)
-  {
+  if (now - lastSampleTime >= sampleTime) {
     lastSampleTime += sampleTime;
     Serial.println("TIME");
     //system("date +\"%T\" > /home/root/time.txt");
@@ -160,8 +142,7 @@ void getRealTime()
     theFileCharacter = fgetc(fp);
 
     int i = 0;
-    while(theFileCharacter != EOF)
-    {
+    while(theFileCharacter != EOF) {
       currentTime[i] = theFileCharacter;
       Serial.println(theFileCharacter);
       theFileCharacter = fgetc(fp);
@@ -175,14 +156,12 @@ void getRealTime()
   // convert current time to ints NOT WORKING YET
   String stringCurHours = "", stringCurMinutes = "";
   int i;
-  for (i = 0; i < sunset.indexOf(':'); i++)
-  {
+  for (i = 0; i < sunset.indexOf(':'); i++) {
     stringCurHours += currentTime[i];
   }
   currentHours = stringCurHours.toInt();
 
-  for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++)
-  {
+  for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++) {
     stringCurMinutes += currentTime[i];
   }
   currentMinutes = stringCurMinutes.toInt();
