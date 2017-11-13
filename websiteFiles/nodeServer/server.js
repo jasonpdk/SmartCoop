@@ -79,4 +79,4 @@ app.get ('/camera', function(req, res) {
 });
 
 app.listen(3333);
-console.log('The server is on port 8080');
+console.log('The server is on port 3333');

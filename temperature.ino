@@ -36,8 +36,7 @@ void temperatureCheckTiming()
 
     Serial.println("MYSQL");
     mySQLAdd();
-  }
-  else {
+  } else {
     updateWebTemp = false;
   }
 
@@ -53,8 +52,7 @@ float temperatureStuff()
   if (temperature < 20.0) {
     digitalWrite(heatLamp, HIGH);
     digitalWrite(fan, LOW);
-  }
-  else if (temperature > 20.0) {
+  } else if (temperature > 20.0) {
     digitalWrite(fan, HIGH);
     digitalWrite(heatLamp, LOW);
   }

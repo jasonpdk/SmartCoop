@@ -27,8 +27,7 @@ void uploadToThingSpeak(float value1, int value2, int value3)
       client.println("Host: api.thingspeak.com");
       client.println("Connection: close");
       client.println();
-    }
-    else {
+    } else {
       Serial.println("FAILED THINGSPEAK");
     }
 
