@@ -120,7 +120,7 @@ int currentHours, currentMinutes;
 // saves the current time to a text file in linux, then reads the file.
 void getRealTime()
 {
-  char currentTime[100] = {};
+  String currentTime = "";
   const unsigned long sampleTime = (20) * 1000UL;
   static unsigned long lastSampleTime = 0 - sampleTime;
 
@@ -129,8 +129,8 @@ void getRealTime()
   if (now - lastSampleTime >= sampleTime) {
     lastSampleTime += sampleTime;
     Serial.println("TIME");
-    //system("date +\"%T\" > /home/root/time.txt");
-    system("date +\"%T\" > \"7:49:22\"");
+    system("date +\"%T\" > /home/root/time.txt");
+    system("echo \"8:00:32\" > /home/root/time.txt");
     FILE *fp;
     int theFileCharacter = 0;
 
@@ -138,12 +138,9 @@ void getRealTime()
 
     theFileCharacter = fgetc(fp);
 
-    int i = 0;
     while(theFileCharacter != EOF) {
-      currentTime[i] = theFileCharacter;
-      Serial.println(theFileCharacter);
+      currentTime += theFileCharacter;
       theFileCharacter = fgetc(fp);
-      i++;
     }
 
     Serial.println(currentTime);
@@ -153,14 +150,16 @@ void getRealTime()
   // convert current time to ints NOT WORKING YET
   String stringCurHours = "", stringCurMinutes = "";
   int i;
-  for (i = 0; i < sunset.indexOf(':'); i++) {
+  for (i = 0; i < currentTime.indexOf(':'); i++) {
     stringCurHours += currentTime[i];
   }
   currentHours = stringCurHours.toInt();
 
-  for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++) {
+  for (i = currentTime.indexOf(':') + 1; i < currentTime.lastIndexOf(':'); i++) {
     stringCurMinutes += currentTime[i];
   }
   currentMinutes = stringCurMinutes.toInt();
 
+  Serial.println("Current INT");
+  Serial.println(currentHours + currentMinutes);
 }

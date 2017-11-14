@@ -11,7 +11,7 @@
 #include "DHT.h"
 
 EthernetClient client;
-EthernetServer server(80);
+EthernetServer server(8000);
 
 /* GLOBAL VARIABLES - These will not always be here */
 String currentLine = "";

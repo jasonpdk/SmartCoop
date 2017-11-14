@@ -32,7 +32,7 @@ void temperatureCheckTiming()
     Serial.println(insideTemperature);
 
     // commented out to save requests, this will probably need to be run less often than the temperature check
-    //uploadToThingSpeak(insideTemperature, temperature, humidity);
+    uploadToThingSpeak(insideTemperature, temperature, humidity);
 
     Serial.println("MYSQL");
     mySQLAdd();
