@@ -1,7 +1,6 @@
 /* SmartCoop: Temperature
  * Reads the temperature from the TMP36 and returns the value in celsius. If this goes below X degrees
- * the heat lamp will turn on.
- * Feature to add: If temperature goes above X turn on the fan.
+ * the heat lamp will turn on. If temperature goes above X turn on the fan.
  *
  * Jason Keane
 */
