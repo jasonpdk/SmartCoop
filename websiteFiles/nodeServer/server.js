@@ -7,9 +7,9 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 
 var con = mysql.createConnection({
-	host: "192.168.41.110",
-	user: "SmartCoopUser",
-	password: "password",
+	host: "192.168.41.111",
+	user: "root",
+	password: "Quartsr2d2",
 	database: "SmartCoop"
 });
 
@@ -78,5 +78,5 @@ app.get ('/camera', function(req, res) {
 	res.render('pages/camera');
 });
 
-app.listen(3333);
-console.log('The server is on port 3333');
+app.listen(80);
+console.log('The server is on port 80');
