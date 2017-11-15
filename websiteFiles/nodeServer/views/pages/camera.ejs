@@ -1,31 +1,32 @@
 <html>
-  <% include ../partials/head %>
+<% include ../partials/head %>
 
-  <body>
-    <div id="wrapper">
-      <% include ../partials/header %>
+	<body>
+		<div id="wrapper">
+				<% include ../partials/header %>
 
-      <div id="navBar">
-        <a href="/">Home</a>
-        <a class="active" href="/graphs">Graphs</a>
-        <a href="/camera">Camera</a>
-      </div>
+				<div id="navBar">
+					<a href="/">Home</a>
+					<a href="/graphs">Graphs</a>
+					<a class="active" href="/camera">Camera</a>
+				</div>
 
 
-      <div id="mainContent">
-        <div id="subContent">
-          <h2>SmartCoop Live Stream</h2>
-          <img src="http://192.168.41.110:8080/?action=stream" />
+				<div id="mainContent">
+					<div id="subContent">
+						<h2>SmartCoop Live Stream</h2>
+						<img src="http://192.168.41.113:8080/?action=stream" />
 
-          <p>Click to turn LED on and off.<br />
-            <button type="button" onclick="ledOn();">On</button>
-            <button type="button" onclick="ledOff();">Off</button>
-          </p>
-        </div>
-      </div>
+						<p>Click to turn LED on and off.<br />
+							<button type="button" onclick="ledOn();">On</button>
+							<button type="button" onclick="ledOff();">Off</button>
+						</p>
+					</div>
+				</div>
 
-      <% include ../partials/footer %>
+				<% include ../partials/footer %>
 
-    </div>
-  </body>
+		</div>
+	</body>
+
 </html>
