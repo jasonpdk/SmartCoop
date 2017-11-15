@@ -4,9 +4,7 @@
   04/11//17
 */
 
-#include <SPI.h>
 #include <Ethernet.h>
-#include <SD.h>
 #include "smartCoop.h"
 #include "DHT.h"
 
@@ -31,7 +29,7 @@ DHT dht(DHTIN,DHTOUT, DHTTYPE);
 
 void setup()
 {
- //Open serial and wait
+  //Open serial and wait
   Serial.begin(9600);
   while (!Serial)
   {}
@@ -55,10 +53,6 @@ void setup()
 
   // dht11 begin
   dht.begin();
-
-  // SD
-  SD.begin(4);
-
 
   // set pins
   pinMode(heatLamp, OUTPUT);

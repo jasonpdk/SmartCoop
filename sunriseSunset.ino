@@ -160,6 +160,6 @@ void getRealTime()
   }
   currentMinutes = stringCurMinutes.toInt();
 
-  Serial.println("Current INT");
-  Serial.println(currentHours + currentMinutes);
+  /*Serial.println("Current INT");
+  Serial.println(currentHours + currentMinutes);*/
 }

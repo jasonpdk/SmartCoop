@@ -7,7 +7,7 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 
 var con = mysql.createConnection({
-	host: "192.168.41.111",
+	host: "192.168.41.110",
 	user: "root",
 	password: "***REMOVED***",
 	database: "SmartCoop"
