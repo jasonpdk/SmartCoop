@@ -1,11 +1,8 @@
 void checkWaterSensor()
 {
-	if (digitalRead(waterLevelSensor) == LOW)
-	{
+	if (digitalRead(waterLevelSensor) == LOW) {
 		// turn on solenoid valve
-	}
-	else
-	{
+	} else {
 		//turn off solenoid valve
 	}
 }
