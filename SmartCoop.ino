@@ -1,17 +1,15 @@
 /*
   Smart Coop: An Automated Chicken Coop
   Jason Keane
-  24/10//17
+  04/11//17
 */
 
-#include <SPI.h>
 #include <Ethernet.h>
-#include <SD.h>
 #include "smartCoop.h"
 #include "DHT.h"
 
 EthernetClient client;
-EthernetServer server(80);
+EthernetServer server(8000);
 
 /* GLOBAL VARIABLES - These will not always be here */
 String currentLine = "";
@@ -29,20 +27,21 @@ float insideTemperature;
 // DHT11 Object
 DHT dht(DHTIN,DHTOUT, DHTTYPE);
 
-// CSS File
-File css;
-
 void setup()
 {
- //Open serial and wait
+  //Open serial and wait
   Serial.begin(9600);
   while (!Serial)
   {}
 
   // start the Ethernet connection:
   byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-  IPAddress ip(192,168,41,100);
-  Ethernet.begin(mac, ip);
+  IPAddress ip(192,168,41,111);
+  IPAddress dnsServer(8,8,8,8);
+  IPAddress gateway(192,168,41,1);
+  IPAddress subnet(255,255,255,0);
+  //Ethernet.begin(mac, ip, dnsServer, gateway, subnet);
+  Ethernet.begin(mac);
 
   // give the Ethernet a second
   delay(1000);
@@ -54,10 +53,6 @@ void setup()
 
   // dht11 begin
   dht.begin();
-
-  // SD
-  SD.begin(4);
-
 
   // set pins
   pinMode(heatLamp, OUTPUT);
@@ -77,4 +72,5 @@ void loop()
   connectForGET(); // this will be run once every day
   checkDoor();
   temperatureCheckTiming();
+  getRealTime();
 }
