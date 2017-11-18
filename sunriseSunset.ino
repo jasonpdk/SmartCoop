@@ -129,7 +129,7 @@ void getRealTime()
   if (now - lastSampleTime >= sampleTime) {
     lastSampleTime += sampleTime;
     Serial.println("TIME");
-    system("date +\"%T\" > /home/root/time.txt");
+    //system("date +\"%T\" > /home/root/time.txt");
     system("echo \"8:00:32\" > /home/root/time.txt");
     FILE *fp;
     int theFileCharacter = 0;
@@ -145,21 +145,22 @@ void getRealTime()
 
     Serial.println(currentTime);
     fclose(fp);
-  }
 
-  // convert current time to ints NOT WORKING YET
-  String stringCurHours = "", stringCurMinutes = "";
-  int i;
-  for (i = 0; i < currentTime.indexOf(':'); i++) {
-    stringCurHours += currentTime[i];
-  }
-  currentHours = stringCurHours.toInt();
 
-  for (i = currentTime.indexOf(':') + 1; i < currentTime.lastIndexOf(':'); i++) {
-    stringCurMinutes += currentTime[i];
-  }
-  currentMinutes = stringCurMinutes.toInt();
+    // convert current time to ints TODO
+    String stringCurHours = "", stringCurMinutes = "";
+    int i;
+    for (i = 0; i < currentTime.indexOf(':'); i++) {
+      stringCurHours += currentTime[i];
+    }
+    currentHours = stringCurHours.toInt();
 
-  /*Serial.println("Current INT");
-  Serial.println(currentHours + currentMinutes);*/
+    for (i = currentTime.indexOf(':') + 1; i < currentTime.lastIndexOf(':'); i++) {
+      stringCurMinutes += currentTime[i];
+    }
+    currentMinutes = stringCurMinutes.toInt();
+
+    Serial.println("Current INT");
+    Serial.println(currentHours + currentMinutes);
+  }
 }
