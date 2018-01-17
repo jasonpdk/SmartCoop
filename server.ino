@@ -43,10 +43,12 @@ void runServer(bool updateTemp)
           if (HTTPRequest.indexOf("openDoor") > -1)
           {
             doorStatus = 1;
+            saveDoorStatus();
           }
           else if(HTTPRequest.indexOf("closeDoor") > -1)
           {
             doorStatus = 0;
+            saveDoorStatus();
           }
 
           req_index = 0; // reset request index

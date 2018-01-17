@@ -17,3 +17,13 @@ void checkDoor()
     digitalWrite(doorMotorPin2, LOW);
   }
 }
+
+void saveDoorStatus()
+{
+  FILE *doorStatusFile;
+
+  doorStatusFile = fopen("/home/root/doorStatus.txt", "w");
+  fprintf(doorStatusFile, "%d", doorStatus);
+
+  fclose(doorStatusFile);
+}

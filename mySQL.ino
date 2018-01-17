@@ -11,7 +11,7 @@ void mySQLAdd()
       client.print("&insideTemp=");
       client.print(insideTemperature);
       client.print("&hum=");
-      client.print(temperature);
+      client.print(humidity);
 
       client.println();
 
@@ -28,6 +28,7 @@ void mySQLAddTimes() // this needs testing
 {
   if (!client.connected())
   {
+    Serial.println("!CONNECT");
     if (client.connect(mySQLServer, 80))
     {
       client.print("GET /smartcoop/addTimes.php?sunrise=");

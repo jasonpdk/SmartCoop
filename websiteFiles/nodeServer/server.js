@@ -1,13 +1,14 @@
 // load the things we need
 var express = require('express');
 var mysql = require('mysql');
+var fs = require('fs');
 
 var app = express();
 
 app.use(express.static(__dirname + '/public'));
 
 var con = mysql.createConnection({
-	host: "192.168.41.110",
+	host: "192.168.41.111",
 	user: "root",
 	password: "Quartsr2d2",
 	database: "SmartCoop"
@@ -24,7 +25,7 @@ con.connect(function(err) {
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-var outsideTemp, insideTemp, humidity;
+var outsideTemp, insideTemp, humidity, doorStatus;
 var sql0 = "SELECT * FROM readings ORDER BY id DESC LIMIT 1";
 var sunrise, sunset;
 var sql1 = "SELECT * FROM times ORDER BY id DESC LIMIT 1";
@@ -43,6 +44,19 @@ con.query(sql1, function (err, result) {
 	sunset = result[0].sunset;
 });
 
+// initial door status check
+fs.readFile('/home/root/doorStatus.txt', 'utf8', function(err, data) {
+	if (err) throw err;
+	if (data[0] == 0)
+	{
+		doorStatus = "closed";
+	}
+	else
+	{
+		doorStatus = "open";
+	}
+});
+
 // index page
 app.get('/', function(req, res) {
 
@@ -59,12 +73,26 @@ app.get('/', function(req, res) {
 		sunset = result[0].sunset;
 	});
 
+	// get door status from text file
+	fs.readFile('/home/root/doorStatus.txt', 'utf8', function(err, data) {
+	  if (err) throw err;
+	  if (data[0] == 0)
+		{
+			doorStatus = "closed";
+		}
+		else
+		{
+			doorStatus = "open";
+		}
+	});
+
 	res.render('pages/index', {
 		insideTemp: insideTemp,
 		outsideTemp: outsideTemp,
 		humidity: humidity,
 		sunrise: sunrise,
-		sunset: sunset
+		sunset: sunset,
+		doorStatus: doorStatus
 	});
 });
 

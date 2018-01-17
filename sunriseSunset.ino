@@ -6,16 +6,17 @@
 
 /* Fetches the sunrise and sunset times */
 
+int sunriseHours, sunriseMinutes;
+int sunsetHours, sunsetMinutes;
 
 void getSunrise()
 {
-  int sunriseHours, sunriseMinutes;
-  int sunsetHours, sunsetMinutes;
 
   /* FETCH */
   // if there are incoming bytes available
   // from the server, read them and print them:
-
+  sunrise = "";
+  sunset = "";
   if (client.available()) {
     char c = client.read();
     currentLine += c;
@@ -39,10 +40,7 @@ void getSunrise()
         currentLine = "";
       }
     }
-
-    mySQLAddTimes();
   }
-
 
   /* converts the strings into separate integers for hours and minutes (unfinished) */
   // sunrise
@@ -66,12 +64,16 @@ void getSunrise()
     stringSetHours += sunset[i];
   }
   sunsetHours = stringSetHours.toInt();
+  sunsetHours = convert12HourTo24Hour(sunsetHours);
 
   for (i = sunset.indexOf(':') + 1; i < sunset.lastIndexOf(':'); i++) {
     stringSetMinutes += sunset[i];
   }
   sunsetMinutes = stringSetMinutes.toInt();
 
+
+  //sunriseHours = 17;
+  //sunriseMinutes = 30;
   // if the server's disconnected, stop the client:
   if (!client.connected()) {
     Serial.println();
@@ -80,8 +82,19 @@ void getSunrise()
     Connected = false;
     getTimes = false;
   }
+
+  mySQLAddTimes();
 }
 
+int convert12HourTo24Hour(int twelveHour)
+{
+  int twentyFourHour = twelveHour + 12;
+  if (twentyFourHour == 24)
+  {
+    twentyFourHour = 0;
+  }
+  return twentyFourHour;
+}
 
 /*
 * Connects to the server api.sunrise-sunset.org
@@ -116,51 +129,44 @@ void connectForGET()
 
 }
 
-int currentHours, currentMinutes;
-// saves the current time to a text file in linux, then reads the file.
 void getRealTime()
 {
-  String currentTime = "";
-  const unsigned long sampleTime = (20) * 1000UL;
-  static unsigned long lastSampleTime = 0 - sampleTime;
+  int currentHours, currentMinutes, currentSeconds;
+  time_t t;
+  time(&t);
+  struct tm *time = localtime(&t);
+  currentHours = time->tm_hour;
+  currentMinutes = time->tm_min;
+  currentSeconds = time->tm_sec;
 
-  unsigned long now = millis();
-
-  if (now - lastSampleTime >= sampleTime) {
-    lastSampleTime += sampleTime;
-    Serial.println("TIME");
-    //system("date +\"%T\" > /home/root/time.txt");
-    system("echo \"8:00:32\" > /home/root/time.txt");
-    FILE *fp;
-    int theFileCharacter = 0;
-
-    fp = fopen("/home/root/time.txt", "r");
-
-    theFileCharacter = fgetc(fp);
-
-    while(theFileCharacter != EOF) {
-      currentTime += theFileCharacter;
-      theFileCharacter = fgetc(fp);
+  // check sunrise
+  if (currentHours == sunriseHours)
+  {
+    if (currentMinutes == sunriseMinutes)
+    {
+      if (currentSeconds == 0)
+      {
+        // open door
+        doorStatus = 1;
+      }
     }
-
-    Serial.println(currentTime);
-    fclose(fp);
-
-
-    // convert current time to ints TODO
-    String stringCurHours = "", stringCurMinutes = "";
-    int i;
-    for (i = 0; i < currentTime.indexOf(':'); i++) {
-      stringCurHours += currentTime[i];
-    }
-    currentHours = stringCurHours.toInt();
-
-    for (i = currentTime.indexOf(':') + 1; i < currentTime.lastIndexOf(':'); i++) {
-      stringCurMinutes += currentTime[i];
-    }
-    currentMinutes = stringCurMinutes.toInt();
-
-    Serial.println("Current INT");
-    Serial.println(currentHours + currentMinutes);
   }
+  else if (currentHours == sunsetHours)
+  {
+    if (currentMinutes == sunsetMinutes)
+    {
+      if (currentSeconds == 0)
+      {
+        // close door -- This might have to be delayed rather than closing exactly at sunset
+        doorStatus = 0;
+      }
+    }
+  }
+
+  if (currentHours == 0 && currentMinutes == 0 && currentSeconds == 0) // get sunrise at midnight
+  {
+    getTimes = true;
+  }
+
+  saveDoorStatus();
 }
