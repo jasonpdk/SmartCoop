@@ -7,6 +7,7 @@
 #include <Ethernet.h>
 #include "smartCoop.h"
 #include "DHT.h"
+#include <time.h>
 
 EthernetClient client;
 EthernetServer server(8000);
@@ -64,12 +65,15 @@ void setup()
   pinMode(doorReadSwitch2, INPUT);
   pinMode(fan, OUTPUT);
   digitalWrite(doorMotorEN, HIGH);
-
 }
 
 void loop()
 {
-  connectForGET(); // this will be run once every day
+  if (getTimes == true)
+  {
+    connectForGET();
+  }
+
   checkDoor();
   temperatureCheckTiming();
   getRealTime();

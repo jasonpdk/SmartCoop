@@ -16,6 +16,6 @@
 #define waterLevelSensor 10
 
 /* DHT 11 */
-#define DHTTYPE DHT11 
-#define DHTIN 11
-#define DHTOUT 12
+#define DHTTYPE DHT11
+#define DHTIN 11 // PIN
+#define DHTOUT 12 // DIODE
