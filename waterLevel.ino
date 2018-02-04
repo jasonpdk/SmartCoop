@@ -1,8 +1,11 @@
+
 void checkWaterSensor()
 {
 	if (digitalRead(waterLevelSensor) == LOW) {
-		// turn on solenoid valve
+		Serial.println("LOW");
+		digitalWrite(solenoidValve, LOW);
 	} else {
-		//turn off solenoid valve
+		Serial.println("HIGH");
+		digitalWrite(solenoidValve, HIGH);
 	}
 }
