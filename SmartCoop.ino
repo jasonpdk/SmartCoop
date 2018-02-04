@@ -56,6 +56,7 @@ void setup()
   dht.begin();
 
   // set pins
+  pinMode(solenoidValve, OUTPUT);
   pinMode(heatLamp, OUTPUT);
   pinMode(lightPin, OUTPUT);
   pinMode(doorMotorEN, OUTPUT);
@@ -75,6 +76,7 @@ void loop()
   }
 
   checkDoor();
+  checkWaterSensor();
   temperatureCheckTiming();
   getRealTime();
 }

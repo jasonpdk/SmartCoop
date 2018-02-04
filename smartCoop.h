@@ -5,6 +5,7 @@
  */
 
 #define TMP36Pin A5
+#define solenoidValve 1
 #define doorMotorPin1 2
 #define doorMotorPin2 3
 #define doorMotorEN 4
