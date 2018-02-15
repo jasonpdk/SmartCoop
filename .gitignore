@@ -1,2 +1,5 @@
 *.gch
 *.zip
+*.todo
+.gitignore
+*.png
