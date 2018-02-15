@@ -6,7 +6,7 @@
 void uploadToThingSpeak(float value1, int value2, int value3)
 {
   char thingSpeakServer[] = "api.thingspeak.com";
-  String APIKey = "***REMOVED***";
+  String APIKey = "5LA2APGVOBKKBW4C";
 
   if (!client.connected()) {
     if (client.connect(thingSpeakServer, 80)) {
