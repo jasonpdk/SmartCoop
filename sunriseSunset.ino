@@ -151,7 +151,7 @@ void getRealTime()
       }
     }
   }
-  else if (currentHours == sunsetHours)
+  else if (currentHours == sunsetHours+1) // delay by 1 hour
   {
     if (currentMinutes == sunsetMinutes)
     {
