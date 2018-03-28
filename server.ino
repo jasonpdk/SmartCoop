@@ -1,4 +1,4 @@
-void runServer(bool updateTemp)
+void runServer()
 {
   /* SERVER */
   String HTTPRequest;
@@ -34,10 +34,12 @@ void runServer(bool updateTemp)
           if (HTTPRequest.indexOf("LEDOn") > -1)
           {
             digitalWrite(lightPin, HIGH);
+            saveLightStatus(1);
           }
           else if (HTTPRequest.indexOf("LEDOff") > -1)
           {
             digitalWrite(lightPin, LOW);
+            saveLightStatus(0);
           }
 
           if (HTTPRequest.indexOf("openDoor") > -1)
@@ -45,10 +47,17 @@ void runServer(bool updateTemp)
             doorStatus = 1;
             saveDoorStatus();
           }
-          else if(HTTPRequest.indexOf("closeDoor") > -1)
+          else if (HTTPRequest.indexOf("closeDoor") > -1)
           {
             doorStatus = 0;
             saveDoorStatus();
+          }
+          else if (HTTPRequest.indexOf("feed") > -1)
+          {
+            feedStatus = 1;
+            /*Serial.print("FEEDSTAT: ");
+            Serial.print(feedStatus);
+            Serial.println();*/
           }
 
           req_index = 0; // reset request index
@@ -75,4 +84,14 @@ void runServer(bool updateTemp)
     client.stop();
     Serial.println("client disconnected");
   }
+}
+
+void saveLightStatus(int status)
+{
+  FILE *lightStatusFile;
+
+  lightStatusFile = fopen("/home/root/lightStatus.txt", "w");
+  fprintf(lightStatusFile, "%d", status);
+
+  fclose(lightStatusFile);
 }

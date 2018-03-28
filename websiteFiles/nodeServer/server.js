@@ -20,12 +20,37 @@ con.connect(function(err) {
 	console.log("Connected to MySQL");
 });
 
+function readDoorFile() {
+	fs.readFile('/home/root/doorStatus.txt', 'utf8', function(err, data) {
+		if (err) throw err;
+		if (data[0] == 0)
+		{
+			return "Closed";
+		}
+		else
+		{
+			return "Open";
+		}
+	});
+}
 
-
+function readLightFile() {
+	fs.readFile('/home/root/lightStatus.txt', 'utf8', function(err, data) {
+		if (err) throw err;
+		if (data[0] == 0)
+		{
+			return "Off";
+		}
+		else
+		{
+			return "On";
+		}
+	});
+}
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-var outsideTemp, insideTemp, humidity, doorStatus;
+var outsideTemp, insideTemp, humidity, doorStatus, lightStatus;
 var sql0 = "SELECT * FROM readings ORDER BY id DESC LIMIT 1";
 var sunrise, sunset;
 var sql1 = "SELECT * FROM times ORDER BY id DESC LIMIT 1";
@@ -44,22 +69,35 @@ con.query(sql1, function (err, result) {
 	sunset = result[0].sunset;
 });
 
-// initial door status check
+// initial status check
 fs.readFile('/home/root/doorStatus.txt', 'utf8', function(err, data) {
 	if (err) throw err;
 	if (data[0] == 0)
 	{
-		doorStatus = "closed";
+		doorStatus = "Closed";
 	}
 	else
 	{
-		doorStatus = "open";
+		doorStatus = "Open";
+	}
+});
+
+fs.readFile('/home/root/lightStatus.txt', 'utf8', function(err, data) {
+	if (err) throw err;
+	if (data[0] == 0)
+	{
+		lightStatus = "Off";
+	}
+	else
+	{
+		lightStatus = "On";
 	}
 });
 
 // index page
 app.get('/', function(req, res) {
 
+	console.log(req);
 	// query the database everytime index is requested
 	con.query(sql0, function (err, result) {
 		if (err) throw err;
@@ -75,16 +113,32 @@ app.get('/', function(req, res) {
 
 	// get door status from text file
 	fs.readFile('/home/root/doorStatus.txt', 'utf8', function(err, data) {
-	  if (err) throw err;
-	  if (data[0] == 0)
+		if (err) throw err;
+		if (data[0] == 0)
 		{
-			doorStatus = "closed";
+			doorStatus = "Closed";
 		}
 		else
 		{
-			doorStatus = "open";
+			doorStatus = "Open";
 		}
 	});
+
+	/*fs.readFile('/home/root/lightStatus.txt', 'utf8', function(err, data) {
+		if (err) throw err;
+		if (data[0] == 0)
+		{
+			lightStatus = "Off";
+		}
+		else
+		{
+			lightStatus = "On";
+		}
+	});*/
+
+	var sCTokens = sunset.split(':');
+	var sCHour = Number(sCTokens[0])+1;
+	var scheduledClosing = "0" + sCHour + ":" + sCTokens[1] + ":" + sCTokens[2];
 
 	res.render('pages/index', {
 		insideTemp: insideTemp,
@@ -92,7 +146,10 @@ app.get('/', function(req, res) {
 		humidity: humidity,
 		sunrise: sunrise,
 		sunset: sunset,
-		doorStatus: doorStatus
+		doorStatus: doorStatus,
+		scheduledOpening: sunrise,
+		scheduledClosing: scheduledClosing,
+		lightStatus: lightStatus
 	});
 });
 
@@ -104,6 +161,17 @@ app.get ('/graphs', function(req, res) {
 // camera page
 app.get ('/camera', function(req, res) {
 	res.render('pages/camera');
+});
+
+
+app.get('/On', function(req, res) {
+	res.send("On");
+	lightStatus = "On";
+});
+
+app.get('/Off', function(req, res) {
+	res.send("Off");
+	lightStatus = "Off";
 });
 
 app.listen(80);

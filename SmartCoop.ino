@@ -6,7 +6,6 @@
 
 #include <Ethernet.h>
 #include "smartCoop.h"
-#include "DHT.h"
 #include <time.h>
 
 EthernetClient client;
@@ -18,15 +17,13 @@ String sunrise = "";
 String sunset = "";
 
 bool doorStatus = 0;
+bool feedStatus = 0;
 bool Connected = 0;
 bool getTimes = true;
 
 float temperature;
 float humidity;
 float insideTemperature;
-
-// DHT11 Object
-DHT dht(DHTIN,DHTOUT, DHTTYPE);
 
 void setup()
 {
@@ -52,9 +49,6 @@ void setup()
   Serial.println(Ethernet.localIP());
   system("ntpdate -u pool.ntp.org"); // set the system time using NTP
 
-  // dht11 begin
-  dht.begin();
-
   // set pins
   pinMode(solenoidValve, OUTPUT);
   pinMode(heatLamp, OUTPUT);
@@ -65,7 +59,9 @@ void setup()
   pinMode(doorReadSwitch1, INPUT);
   pinMode(doorReadSwitch2, INPUT);
   pinMode(fan, OUTPUT);
+  pinMode(feederMotor, OUTPUT);
   digitalWrite(doorMotorEN, HIGH);
+  digitalWrite(feederMotor, HIGH);
 }
 
 void loop()
@@ -77,6 +73,7 @@ void loop()
 
   checkDoor();
   checkWaterSensor();
+  feedCheck();
   temperatureCheckTiming();
   getRealTime();
 }

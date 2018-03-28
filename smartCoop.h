@@ -4,19 +4,19 @@
  * Jason Keane
  */
 
-#define TMP36Pin A5
-#define solenoidValve 1
-#define doorMotorPin1 2
-#define doorMotorPin2 3
-#define doorMotorEN 4
+#define OTMP36Pin A0
+#define ITMP36Pin A1
+#define HIH4030Pin A2
+
+#define doorMotorPin1 0
+#define doorMotorPin2 1
+#define doorMotorEN 2
+#define doorReadSwitch1 3
+#define doorReadSwitch2 4
 #define heatLamp 5
 #define lightPin 6
-#define doorReadSwitch1 7
-#define doorReadSwitch2 8
-#define fan 9
-#define waterLevelSensor 10
 
-/* DHT 11 */
-#define DHTTYPE DHT11
-#define DHTIN 11 // PIN
-#define DHTOUT 12 // DIODE
+#define waterLevelSensor 9
+#define solenoidValve 10
+#define fan 11
+#define feederMotor 12

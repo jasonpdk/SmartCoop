@@ -1,6 +1,7 @@
 void checkDoor()
 {
   // door open
+
   if ((doorStatus == 1) && (digitalRead(doorReadSwitch1) == HIGH))
   {
       digitalWrite(doorMotorPin1, HIGH);
@@ -13,6 +14,7 @@ void checkDoor()
   }
   else
   {
+    //Serial.println("SWITCH");
     digitalWrite(doorMotorPin1, LOW);
     digitalWrite(doorMotorPin2, LOW);
   }

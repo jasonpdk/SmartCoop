@@ -148,6 +148,7 @@ void getRealTime()
       {
         // open door
         doorStatus = 1;
+        saveDoorStatus();
       }
     }
   }
@@ -159,6 +160,7 @@ void getRealTime()
       {
         // close door -- This might have to be delayed rather than closing exactly at sunset
         doorStatus = 0;
+        saveDoorStatus();
       }
     }
   }
@@ -167,6 +169,4 @@ void getRealTime()
   {
     getTimes = true;
   }
-
-  saveDoorStatus();
 }

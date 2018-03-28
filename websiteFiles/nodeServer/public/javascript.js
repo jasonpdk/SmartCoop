@@ -1,4 +1,4 @@
-var galileoIP = "192.168.41.10:8000";
+var galileoIP = "192.168.41.105:8000";
 
 function ledOn()
 {
@@ -26,4 +26,22 @@ function closeDoor()
   var xhr = new XMLHttpRequest();
   xhr.open('GET', "//" + galileoIP + "?closeDoor", true);
   xhr.send();
+}
+
+function feed()
+{
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', "//" + galileoIP + "?feed", true);
+  xhr.send();
+}
+
+function updateLightStat(onoff) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     document.getElementById("updateThis").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", onoff, true);
+  xhttp.send();
 }

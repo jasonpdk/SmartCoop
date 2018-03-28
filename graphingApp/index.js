@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var spawn = require("child_process").spawn;

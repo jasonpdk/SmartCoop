@@ -5,18 +5,22 @@
   The navigation bar CSS is from W3 Schools (https://www.w3schools.com/howto/howto_js_topnav.asp) and
   has been modified.
 
+  The styling for the large buttons has also come from W3 schools.
+
   Jason Keane
 */
 
 html
 {
   height: 100%;
+
 }
 
 *
 {
   margin: 0;
   padding: 0;
+  cursor: url(/hen.png), auto;
 }
 
 body
@@ -56,11 +60,12 @@ p
 
 /* NAV MENU */
 #navBar {
-  height: 48px;
+  height: 48px; /*48*/
   background-color: #333;
   overflow: hidden;
   width: 80%;
   margin: 0 auto;
+  border-radius: 10px 10px 0 0;
 }
 
 /* Style the links inside the navigation bar */
@@ -92,18 +97,13 @@ p
   width: 80%;
   overflow: hidden;
   padding: 20px 0 20px 0;
-  background: #f2f2f2;
+  background: #dddddd;
 }
 
 #subContent
 {
   text-align: left;
   padding: 0 40px;
-}
-
-#subContent h2 {
-  color: #068900;
-  text-transform: uppercase;
 }
 
 #footer
@@ -116,4 +116,104 @@ p
   color: #FFF;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  border-radius: 0 0 10px 10px;
+}
+
+#updateThis {
+  display:inline;
+}
+.gridWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 1px;
+  grid-row-gap: 10px;
+  max-width:inherit;
+  margin: 0 auto;
+
+}
+
+.widgetMain {
+  height: 235px;
+  width: 280px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.widgetHeader h2 {
+  color: white;
+  vertical-align: middle;
+  margin-top:0px; /* need this to clear the default margin */
+  margin-bottom:0px;
+}
+
+.widgetHeader img {
+  height: 60px;
+  width: 40px;
+}
+
+.widgetHeader .text {
+  width: 168;
+  line-height: 70.5px;
+  float: left;
+  padding-left: 41px;
+  text-align: center;
+}
+
+.widgetHeader .image {
+  padding: 5.25px 0;
+  width: 71px;
+  float: right;
+}
+
+.widgetHeader {
+  width: 100%;
+  height: 30%;
+  vertical-align: top;
+  background-color: #068900;
+  border-radius: 10px 10px 0 0;
+}
+
+.widgetBody {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.widgetBody h3 {
+  display:inline;
+}
+
+/* BUTTON */
+.button {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+@media only screen and (max-width: 1152px) {
+  .gridWrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .gridWrapper {
+    grid-template-columns: 1fr;
+  }
 }

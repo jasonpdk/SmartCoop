@@ -1,23 +1,33 @@
 <html>
 <head>
-  <title>PLOT</title>
+  <title>SmartCoop Graph</title>
 </head>
 <body>
+  <h1>SmartCoop Graphing</h1>
   <form action = "/", method = "POST">
     <fieldset>
+      <u>Select a measurement to graph:</u>
+      <br />
       <label><input name="measurement" type="radio" value="temp" checked="checked">Outside Temperature</label>
       <label><input name="measurement" type="radio" value="itemp">Inside Temperature</label>
       <label><input name="measurement" type="radio" value="hum">Inside Humidity</label>
       <br /><br />
-
-      <label for="name">Number of Entries:</label>
-      <input type="text" id="numEntries" name="numEntries" placeholder="Enter the number of entries you wish to graph" />
+      <u>Enter the number of most recent entries to graph:</u>
       <br />
+      <label for="name">Number of Entries:</label>
+      <input type="number" id="numEntries" name="numEntries" min="1" placeholder="Enter the number of entries you wish to graph" />
+      <br /><br />
+      <u><b>OR</b></u>
+      <br /><br />
+      <u>Graph all of the entries between two dates:</u>
       <br />
       <label for="lowDate">Lower Date</label>
-      <input type="text" id="lowDate" name="lowDate" placeholder="YYYY-MM-DD" />
+      <!--<input type="text" id="lowDate" name="lowDate" placeholder="YYYY-MM-DD" />-->
+      <input type="date" id="lowDate" name="lowDate" />
+
       <label for="upperDate">Upper Date</label>
-      <input type="text" id="upperDate" name="upperDate" placeholder="YYYY-MM-DD" />
+      <!--<input type="text" id="upperDate" name="upperDate" placeholder="YYYY-MM-DD" />-->
+      <input type="date" id="upperDate" name="upperDate" />
       <br />
     </fieldset>
     <input type="submit" value="Create Graph"/>
