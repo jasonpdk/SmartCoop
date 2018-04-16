@@ -4,8 +4,8 @@
  * Jason Keane
  */
 
-#define OTMP36Pin A0
-#define ITMP36Pin A1
+#define OTMP36Pin A1
+#define ITMP36Pin A0
 #define HIH4030Pin A2
 
 #define doorMotorPin1 0

@@ -16,39 +16,6 @@
 
       <div id="mainContent">
         <div id="subContent">
-        <!--  <h2>Sensor Readings</h2>
-          <p class="readings">
-                The outside temperature is <%= outsideTemp %><br />
-								The inside temperature is <%= insideTemp %><br />
-								The humidity is <%= humidity %><br />
-
-            <a href="/graphs">Click here to see the historical values on a graph.</a>
-          </p>
-
-          <h2>Sunrise and Sunset Times</h2>
-          <p>
-
-          	The sunrise time today is: <%= sunrise %> AM<br />
-						The sunset time today is: <%= sunset %> PM<br />
-
-          </p>
-
-          <h2>Control</h2>
-
-          <p>Click to turn LED on and off.<br />
-            <button type="button" onclick="ledOn();">On</button>
-            <button type="button" onclick="ledOff();">Off</button>
-          </p>
-
-
-          <p>Click to open/close door.<br />
-            <button type="button" onclick="openDoor();">Open</button>
-            <button type="button" onclick="closeDoor();">Close</button><br />
-          </p>
-
-					<p>Click to feed the chickens.<br />
-						<button type="button" onclick="feed();">Feed</button>
-					</p>-->
 					<div class="gridWrapper">
 						<div class="widgetMain">
 							<div class="widgetHeader">
@@ -61,9 +28,11 @@
 							</div>
 							<div class="widgetBody">
 								<p class="readings">
-			              <h3>Outside Temperature: </h3> <%= outsideTemp %><br /><br />
-										<h3>Inside Temperature: </h3> <%= insideTemp %><br /><br />
-										<h3>Inside Humidity: </h3> <%= humidity %><br />
+			              <h3>Outside Temperature: </h3><%= outsideTemp %>&deg;C<br />
+										<h3>Inside Temperature: </h3><%= insideTemp %>&deg;C<br />
+										<h3>Inside Humidity: </h3><%= humidity %>%<br /><br />
+										<h3>The heat lamp is: </h3><%= heatLamp %><br />
+										<h3>The fan is: </h3><%= fan %><br />
 			          </p>
 							</div>
 						</div>
@@ -78,7 +47,7 @@
 								</div>
 							</div>
 							<div class="widgetBody">
-								<p>Click to turn light on and off.<br />
+								<p>
 				           <button type="button" class="button" onclick="ledOn();updateLightStat('On');">On</button>
 				           <button type="button" class="button" onclick="ledOff();updateLightStat('Off');">Off</button>
 									 <h3>Status: </h3><div id="updateThis"><%= lightStatus %></div>

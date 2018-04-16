@@ -7,10 +7,8 @@
 
 void temperatureCheckTiming()
 {
-  float previousHumidity;
-
   // Check temperature every 5 minutes
-  const unsigned long sTime = (5*60) * 1000UL;
+  const unsigned long sTime = (10) * 1000UL;
   static unsigned long lSTime = 0 - sTime;
 
   unsigned long now = millis();
@@ -19,9 +17,11 @@ void temperatureCheckTiming()
     lSTime += sTime;
     temperature = getTemperature(OTMP36Pin);
 
+    Serial.print("OTEMP: ");
     Serial.println(temperature);
 
     insideTemperature = getTemperature(ITMP36Pin);
+    Serial.print("ITEMP: ");
     Serial.println(insideTemperature);
 
     // humidity
@@ -30,13 +30,21 @@ void temperatureCheckTiming()
     Serial.println(humidity);
 
     // turn on heat lamp if temperature goes below 1 degree
-    if (insideTemperature < 26) {
+    if (insideTemperature <= 1) {
       digitalWrite(heatLamp, HIGH);
       digitalWrite(fan, HIGH);
-  } else if (insideTemperature > 26) {
+    }
+    else if (insideTemperature > 26) {
       digitalWrite(fan, LOW);
       digitalWrite(heatLamp, LOW);
     }
+    else
+    {
+      // turn both off
+      digitalWrite(heatLamp, LOW);
+      digitalWrite(fan, HIGH);
+    }
+
     // commented out to save requests, this will probably need to be run less often than the temperature check
     uploadToThingSpeak(insideTemperature, temperature, humidity);
 
@@ -50,9 +58,17 @@ void temperatureCheckTiming()
 float getTemperature(int pin)
 {
   float reading = analogRead(pin);
-  temperature = (((reading) * (5000 / 1024.0)) - 500) / 10;
+  float temp = (((reading) * (5000 / 1024.0)) - 500) / 10;
 
-  return temperature;
+  return temp;
+}
+
+float getTempTemp(int pin)
+{
+  float reading = analogRead(pin);
+  float temp = ((reading) * (5000 / 1024.0)) / 10;
+
+  return temp;
 }
 
 float getHumidity(int pin)

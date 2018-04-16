@@ -1,7 +1,5 @@
 void checkDoor()
 {
-  // door open
-
   if ((doorStatus == 1) && (digitalRead(doorReadSwitch1) == HIGH))
   {
       digitalWrite(doorMotorPin1, HIGH);

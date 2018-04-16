@@ -71,9 +71,6 @@ void getSunrise()
   }
   sunsetMinutes = stringSetMinutes.toInt();
 
-
-  //sunriseHours = 17;
-  //sunriseMinutes = 30;
   // if the server's disconnected, stop the client:
   if (!client.connected()) {
     Serial.println();
@@ -98,7 +95,6 @@ int convert12HourTo24Hour(int twelveHour)
 
 /*
 * Connects to the server api.sunrise-sunset.org
-* Will need to be changed when the timing is set up. The getTimes and Connected variables will not be needed.
 */
 void connectForGET()
 {
@@ -112,7 +108,6 @@ void connectForGET()
         Serial.println("connected");
         // Make a HTTP request:
         client.println("GET /json?lat=53.2706680&lng=-9.0567910&date=today HTTP/1.1");
-        //client.println("GET /json?lat=53.2706680&lng=-9.0567910&date=2017-06-30 HTTP/1.1");
         client.println("Host: api.sunrise-sunset.org");
         client.println("Connection: close");
         client.println();

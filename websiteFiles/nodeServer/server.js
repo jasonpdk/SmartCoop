@@ -139,6 +139,22 @@ app.get('/', function(req, res) {
 	var sCTokens = sunset.split(':');
 	var sCHour = Number(sCTokens[0])+1;
 	var scheduledClosing = "0" + sCHour + ":" + sCTokens[1] + ":" + sCTokens[2];
+	var heatLamp = "Off", fan = "Off";
+	if (insideTemp <= 1)
+	{
+		heatLamp =  "On";
+		fan = "Off";
+	}
+	else if (insideTemp > 26)
+	{
+		heatLamp = "Off";
+		fan = "On";
+	}
+	else
+	{
+		heatLamp = "Off";
+		fan = "Off";
+	}
 
 	res.render('pages/index', {
 		insideTemp: insideTemp,
@@ -149,7 +165,9 @@ app.get('/', function(req, res) {
 		doorStatus: doorStatus,
 		scheduledOpening: sunrise,
 		scheduledClosing: scheduledClosing,
-		lightStatus: lightStatus
+		lightStatus: lightStatus,
+		heatLamp: heatLamp,
+		fan: fan
 	});
 });
 
@@ -172,6 +190,10 @@ app.get('/On', function(req, res) {
 app.get('/Off', function(req, res) {
 	res.send("Off");
 	lightStatus = "Off";
+});
+
+app.get('/updateReadings', function(req, res) {
+
 });
 
 app.listen(80);
