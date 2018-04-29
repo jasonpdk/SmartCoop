@@ -47,7 +47,7 @@ void setup()
   server.begin();
   Serial.print("The server is at ");
   Serial.println(Ethernet.localIP());
-  system("ntpdate -u pool.ntp.org"); // set the system time using NTP
+  system("ntpdate -u 209.208.79.69"); // set the system time using NTP
 
   // set pins
   pinMode(solenoidValve, OUTPUT);

@@ -5,7 +5,7 @@
 
 void uploadToThingSpeak(float value1, int value2, int value3)
 {
-  char thingSpeakServer[] = "api.thingspeak.com";
+  char thingSpeakServer[] = "52.5.100.160";
 
   if (!client.connected()) {
     if (client.connect(thingSpeakServer, 80)) {

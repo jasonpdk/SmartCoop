@@ -44,17 +44,26 @@ p
 #header
 {
   height: 100px;
+  width: 80%;
+  margin: 0 auto;
 }
 
 #logo {
-  width: 80%;
+  width: 75%;
   position: relative;
   vertical-align: middle;
   padding: 24px 0 0 0;
+  float: left;
 }
 
 #logo h1 {
   color: #333;
+}
+
+#time {
+  width:25%;
+  padding: 42.5px 0;
+  float: right;
 }
 
 /* NAV MENU */

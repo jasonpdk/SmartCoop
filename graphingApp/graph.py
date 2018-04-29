@@ -2,7 +2,6 @@ import sys
 from pylab import *
 import MySQLdb
 from datetime import datetime
-import numpy as np
 
 db = MySQLdb.connect('localhost', 'root', 'password', 'SmartCoop');
 
@@ -40,25 +39,28 @@ if len(result) < 1:
 else:
     print(0)
 
-temp = []
+measurement = []
 time = []
 
+# loop through all of the results, the first element is the value this is added into the temp Array
+# the second element is the time that value was entered this is added into the time Array
 for record in result:
-    temp.append(float(record[0]))
+    measurement.append(float(record[0]))
     time.append(record[1])
 
+# Plot and Format
 xs = matplotlib.dates.date2num(time)
-hfmt = matplotlib.dates.DateFormatter('%Y-%m-%d\n%H:%M:%S')
+dateFormat = matplotlib.dates.DateFormatter('%Y-%m-%d\n%H:%M:%S') # set the date format
 fig = figure()
 ax = fig.add_subplot(1,1,1)
-ax.xaxis.set_major_formatter(hfmt)
-ax.plot(xs, temp, linewidth=2)
-ax.scatter(xs, temp)
+ax.xaxis.set_major_formatter(dateFormat)
+ax.plot(xs, measurement, linewidth=2)
+ax.scatter(xs, measurement, s=15)
 ax.set_title(title)
-setp(ax.get_xticklabels(), size=8)
-setp(ax.get_yticklabels(), size=8)
+setp(ax.get_xticklabels(), size=6)
+setp(ax.get_yticklabels(), size=6)
 grid(True)
 
+# save the plot to an image
 F = gcf()
-DPI = F.get_dpi()
 F.savefig('plot.png',dpi = (1000))

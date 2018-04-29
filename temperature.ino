@@ -7,8 +7,8 @@
 
 void temperatureCheckTiming()
 {
-  // Check temperature every 5 minutes
-  const unsigned long sTime = (10) * 1000UL;
+  // Check temperature every 30 seconds
+  const unsigned long sTime = (30) * 1000UL;
   static unsigned long lSTime = 0 - sTime;
 
   unsigned long now = millis();
@@ -45,7 +45,6 @@ void temperatureCheckTiming()
       digitalWrite(fan, HIGH);
     }
 
-    // commented out to save requests, this will probably need to be run less often than the temperature check
     uploadToThingSpeak(insideTemperature, temperature, humidity);
 
     Serial.println("MYSQL");

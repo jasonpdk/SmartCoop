@@ -26,10 +26,10 @@ app.use(express.static('public'));
 app.post('/', function(req, res){
   console.log(req.body);
   //res.send("recieved your request!");
-  var status;
+//  var status;
   var measurement = req.body.measurement;
 
-  if (req.body.numEntries != '' && req.body.lowDate == '' && req.body.upperDate == '') {
+  if (req.body.type == 'latReadings') {
     var process = spawn('python',["graph.py", "num", measurement, req.body.numEntries]);
     process.stdout.on('data', (data) => {
       status = `${data}`;
@@ -39,7 +39,7 @@ app.post('/', function(req, res){
       res.download('./plot.png');
     });
   }
-  else if (req.body.numEntries == '' && req.body.lowDate != '' && req.body.upperDate != '') {
+  else if (req.body.type == 'dateRange') {
     var process = spawn('python',["graph.py", "dates", measurement, req.body.lowDate, req.body.upperDate]);
 
     process.stdout.on('data', (data) => {

@@ -102,7 +102,7 @@ void connectForGET()
   if (getTimes) {
     if (Connected == false) {
       /* CONNECT */
-      char serverToScrape[] = "api.sunrise-sunset.org";
+      char serverToScrape[] = "104.131.2.15";
       // if you get a connection, report back via serial:
       if (client.connect(serverToScrape, 80)) {
         Serial.println("connected");
@@ -135,6 +135,20 @@ void getRealTime()
   currentSeconds = time->tm_sec;
 
   // check sunrise
+  /*Serial.print("TIME: ");
+  Serial.print(currentHours);
+  Serial.print(":");
+  Serial.print(currentMinutes);
+  Serial.print(":");
+  Serial.print(currentSeconds);
+  Serial.print(":");
+  Serial.println();
+  Serial.print("Sunsett: ");
+  Serial.print(sunriseHours);
+  Serial.print(":");
+  Serial.print(sunriseMinutes);
+  Serial.println();*/
+
   if (currentHours == sunriseHours)
   {
     if (currentMinutes == sunriseMinutes)
@@ -153,7 +167,8 @@ void getRealTime()
     {
       if (currentSeconds == 0)
       {
-        // close door -- This might have to be delayed rather than closing exactly at sunset
+        // close door
+        Serial.println("CLOSE");
         doorStatus = 0;
         saveDoorStatus();
       }
